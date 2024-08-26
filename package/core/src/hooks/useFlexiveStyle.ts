@@ -1,72 +1,13 @@
-import { CSSProperties, useRef, useMemo } from "react";
-import { FlexiveStyle, flexiveStyleWithDefault } from "../core/flexiveStyle";
+import { CSSProperties, useMemo } from "react";
+import { FlexiveStyle, parseFlexiveStyle } from "../core/flexiveStyle";
 
-/*
- * hooks
- */
-export const useFlexiveStyle = (style?: FlexiveStyle, override?: CSSProperties, defaultIsInline?: boolean) => {
-  const {
-    flex: [grow, shrink, basis],
-    flow: [direction, wrap, alignAlias, justifyAlias],
-    align: [align, alignMax, alignMin],
-    justify: [justify, justifyMax, justifyMin],
-    spacing: [padding, gap, margin],
-    overflow: [overflowX, overflowY],
-    isInline,
-    disable,
-  } = flexiveStyleWithDefault(style ?? {}, defaultIsInline);
-
-  const overrideRef = useRef(override);
-  const { alignKey, justifyKey } = useMemo(() => {
-    const isVertical = direction === "column" || direction === "column-reverse";
-    return {
-      alignKey: isVertical ? "Width" : "Height",
-      justifyKey: isVertical ? "Height" : "Width",
-    };
-  }, [direction]);
-
-  const styleObject: CSSProperties = useMemo(() => {
-    if (disable) return {};
-    return {
-      display: isInline ? "inline-flex" : "flex",
-      flex: `${grow} ${shrink} ${basis}`,
-      flexFlow: `${direction} ${wrap}`,
-      alignItems: `${align ?? alignAlias}`,
-      justifyContent: `${justify ?? justifyAlias}`,
-      [`max${alignKey}`]: alignMax,
-      [`min${alignKey}`]: alignMin,
-      [`max${justifyKey}`]: justifyMax,
-      [`min${justifyKey}`]: justifyMin,
-      gap,
-      padding,
-      margin,
-      overflow: `${overflowX} ${overflowY}`,
-      ...overrideRef.current,
-    };
-  }, [
-    disable,
-    isInline,
-    grow,
-    shrink,
-    basis,
-    direction,
-    wrap,
-    alignAlias,
-    justifyAlias,
-    align,
-    justify,
-    padding,
-    gap,
-    margin,
-    alignKey,
-    alignMax,
-    alignMin,
-    justifyKey,
-    justifyMax,
-    justifyMin,
-    overflowX,
-    overflowY,
-  ]);
-
+export const useFlexiveStyle = (
+  { deps = [], ...style }: FlexiveStyle = {},
+  override?: CSSProperties,
+  defaultIsInline?: boolean,
+) => {
+  const styleObject = useMemo(() => {
+    return { ...parseFlexiveStyle(style, defaultIsInline), ...override };
+  }, [...deps]);
   return styleObject;
 };
