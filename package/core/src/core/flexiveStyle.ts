@@ -38,6 +38,7 @@ export type FlexiveStyle = {
   spacing?: [Padding?, Gap?, Margin?];
   isInline?: boolean;
   overflow?: [Overflow?, Overflow?];
+  disable?: boolean;
 };
 
 /*
@@ -51,6 +52,7 @@ const defaultFlexiveStyle: Required<FlexiveStyle> = {
   spacing: [],
   isInline: false,
   overflow: ["auto"],
+  disable: false,
 };
 
 /*
