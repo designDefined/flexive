@@ -1,68 +1,69 @@
+import { forwardRef } from "react";
 import { useFlexiveStyle, useFlexiveClass } from "../../hooks";
 import { FlexiveHeadingProps } from "../../types/flexiveElementProps";
 
-export function H1({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H1 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h1 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h1 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h1>
   );
-}
+});
 
-export function H2({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H2 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h2 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h2 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h2>
   );
-}
+});
 
-export function H3({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H3 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h3 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h3 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h3>
   );
-}
+});
 
-export function H4({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H4 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h4 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h4 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h4>
   );
-}
+});
 
-export function H5({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H5 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h5 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h5 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h5>
   );
-}
+});
 
-export function H6({ children, f, style, ...props }: FlexiveHeadingProps) {
+export const H6 = forwardRef<HTMLHeadingElement, FlexiveHeadingProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, false);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <h6 {...props} style={flexiveStyle} className={flexiveClass}>
+    <h6 {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </h6>
   );
-}
+});

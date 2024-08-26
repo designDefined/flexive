@@ -13,6 +13,7 @@ export const useFlexiveStyle = (style?: FlexiveStyle, override?: CSSProperties, 
     spacing: [padding, gap, margin],
     overflow: [overflowX, overflowY],
     isInline,
+    disable,
   } = flexiveStyleWithDefault(style ?? {}, defaultIsInline);
 
   const overrideRef = useRef(override);
@@ -24,8 +25,9 @@ export const useFlexiveStyle = (style?: FlexiveStyle, override?: CSSProperties, 
     };
   }, [direction]);
 
-  const styleObject: CSSProperties = useMemo(
-    () => ({
+  const styleObject: CSSProperties = useMemo(() => {
+    if (disable) return {};
+    return {
       display: isInline ? "inline-flex" : "flex",
       flex: `${grow} ${shrink} ${basis}`,
       flexFlow: `${direction} ${wrap}`,
@@ -40,31 +42,31 @@ export const useFlexiveStyle = (style?: FlexiveStyle, override?: CSSProperties, 
       margin,
       overflow: `${overflowX} ${overflowY}`,
       ...overrideRef.current,
-    }),
-    [
-      isInline,
-      grow,
-      shrink,
-      basis,
-      direction,
-      wrap,
-      alignAlias,
-      justifyAlias,
-      align,
-      justify,
-      padding,
-      gap,
-      margin,
-      alignKey,
-      alignMax,
-      alignMin,
-      justifyKey,
-      justifyMax,
-      justifyMin,
-      overflowX,
-      overflowY,
-    ],
-  );
+    };
+  }, [
+    disable,
+    isInline,
+    grow,
+    shrink,
+    basis,
+    direction,
+    wrap,
+    alignAlias,
+    justifyAlias,
+    align,
+    justify,
+    padding,
+    gap,
+    margin,
+    alignKey,
+    alignMax,
+    alignMin,
+    justifyKey,
+    justifyMax,
+    justifyMin,
+    overflowX,
+    overflowY,
+  ]);
 
   return styleObject;
 };

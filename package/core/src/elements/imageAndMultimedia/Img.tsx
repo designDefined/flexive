@@ -1,9 +1,10 @@
+import { forwardRef } from "react";
 import { useFlexiveStyle, useFlexiveClass } from "../../hooks";
 import { FlexiveImgProps } from "../../types/flexiveElementProps";
 
-export function Img({ f, style, ...props }: FlexiveImgProps) {
+export const Img = forwardRef<HTMLImageElement, FlexiveImgProps>(({ f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, true);
   const flexiveClass = useFlexiveClass(props);
 
-  return <img {...props} style={flexiveStyle} className={flexiveClass} />;
-}
+  return <img {...props} style={flexiveStyle} className={flexiveClass} ref={ref} />;
+});
