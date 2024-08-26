@@ -1,13 +1,14 @@
+import { forwardRef } from "react";
 import { useFlexiveStyle, useFlexiveClass } from "../../hooks";
 import { FlexiveLabelProps } from "../../types/flexiveElementProps";
 
-export function Label({ children, f, style, ...props }: FlexiveLabelProps) {
+export const Label = forwardRef<HTMLLabelElement, FlexiveLabelProps>(({ children, f, style, ...props }, ref) => {
   const flexiveStyle = useFlexiveStyle(f, style, true);
   const flexiveClass = useFlexiveClass(props);
 
   return (
-    <label {...props} style={flexiveStyle} className={flexiveClass}>
+    <label {...props} style={flexiveStyle} className={flexiveClass} ref={ref}>
       {children}
     </label>
   );
-}
+});
