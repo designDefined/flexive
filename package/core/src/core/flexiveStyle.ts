@@ -16,6 +16,7 @@ type DirectionValue = "row" | "column" | "row-reverse" | "column-reverse";
 type WrapValue = "nowrap" | "wrap" | "wrap-reverse";
 
 const parseString = (value?: string) => (value && value.length > 0 ? value : undefined);
+const parsePixel = (value?: string | number) => (typeof value === "number" ? `${value}px` : value);
 const parseDistanceString = (value?: string | number) =>
   value === undefined ? "0" : typeof value === "number" ? (value > 0 ? `${value}px` : "0") : value;
 const parseTwoDirectionalValue = (value?: TwoDirectionalValue) => {
@@ -51,7 +52,11 @@ const parseFourDirectionalValue = (value?: FourDirectionalValue) => {
 type Flex = [number?, number?, Value?];
 const defaultFlex: Flex = [0, 0, "auto"];
 const parseFlex = (flex?: Flex): string =>
-  [flex?.[0] ?? defaultFlex[0], flex?.[1] ?? defaultFlex[1], flex?.[2] ?? defaultFlex[2]].join(" ");
+  [
+    flex?.[0] ?? defaultFlex[0],
+    flex?.[1] ?? defaultFlex[1],
+    parsePixel(flex?.[2] !== undefined ? flex[2] : defaultFlex[2]),
+  ].join(" ");
 
 /*
  * flow
