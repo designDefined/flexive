@@ -1,5 +1,5 @@
 import styles from ".//App.module.css";
-import { Div, Main, useFlexiveSystem } from "@flexive/core";
+import { Div, Main, useFlexiveStyle, useFlexiveSystem } from "@flexive/core";
 import { useState } from "react";
 
 function App() {
@@ -29,6 +29,11 @@ function App() {
 
   console.log(cx2.root("single"));
   console.log(fx2.root({ flex: [4, 4, 4] }));
+
+  console.log(fx2.root());
+
+  const f = useFlexiveStyle({ flow: ["row"], justify: ["center", "scroll"], overflow: ["hidden", "auto"] });
+  console.log(f);
 
   return (
     <Main
