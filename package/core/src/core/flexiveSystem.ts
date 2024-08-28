@@ -39,7 +39,7 @@ export const createClassNameBinder = <Map extends ComponentMap>(
 
 export type FlexiveStyleMap<Map> = Map extends true ? FlexiveStyle : { [K in keyof Map]?: FlexiveStyleMap<Map[K]> };
 
-export type FlexiveStyleBinder = (f: FlexiveStyle) => FlexiveStyle;
+export type FlexiveStyleBinder = (f?: FlexiveStyle) => FlexiveStyle;
 export type FlexiveStyleBinderMap<Map> = Map extends true
   ? FlexiveStyleBinder
   : { [K in keyof Map]: FlexiveStyleBinderMap<Map[K]> };
@@ -48,7 +48,8 @@ export const createFlexiveStyleBinder = <Map extends ComponentMap>(
   styleMap?: FlexiveStyleMap<Map>,
 ): FlexiveStyleBinderMap<Map> => {
   if (isMapEnd(map))
-    return ((style: FlexiveStyle) => mergeStyle(style, (styleMap ?? {}) as FlexiveStyle)) as FlexiveStyleBinderMap<Map>;
+    return ((style: FlexiveStyle = {}) =>
+      mergeStyle(style, (styleMap ?? {}) as FlexiveStyle)) as FlexiveStyleBinderMap<Map>;
 
   const keyOfMap = Object.keys(map) as (keyof Map)[];
   return keyOfMap.reduce((acc, key) => {

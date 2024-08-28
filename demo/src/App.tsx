@@ -30,6 +30,8 @@ function App() {
   console.log(cx2.root("single"));
   console.log(fx2.root({ flex: [4, 4, 4] }));
 
+  console.log(fx2.root());
+
   const f = useFlexiveStyle({ flow: ["row"], justify: ["center", "scroll"], overflow: ["hidden", "auto"] });
   console.log(f);
 
