@@ -47,6 +47,7 @@ function App() {
         f={{
           flex: [1, 0, "auto"],
           spacing: [[10, 20, 30], [], { top: 10, right: 20, bottom: 30, left: 40 }],
+          self: ["center"],
         }}
       />
     </Main>
