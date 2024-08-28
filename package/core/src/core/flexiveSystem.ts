@@ -4,9 +4,12 @@ import { FlexiveStyle } from "./flexiveStyle";
 
 export type ComponentMap = { [key: string]: ComponentMap | true } | true;
 export type ComponentMapWithRoot<Map extends ComponentMap> = Map extends true ? true : { root: true } & Map;
+export type ComponentMapBindedWithRoot<Map extends ComponentMap> = Map extends true
+  ? { root: true }
+  : { root: true } & Map;
 export const isMapEnd = (map: ComponentMap): map is true => map === true;
-export const addRoot = <Map extends ComponentMap>(map: Map): ComponentMapWithRoot<Map> =>
-  (typeof map === "object" ? { root: true, ...map } : true) as ComponentMapWithRoot<Map>;
+export const addRoot = <Map extends ComponentMap>(map: Map): ComponentMapBindedWithRoot<Map> =>
+  (typeof map === "object" ? { root: true, ...map } : { root: true }) as ComponentMapBindedWithRoot<Map>;
 
 export type ClassNameMap<Map> = Map extends true ? string : { [K in keyof Map]?: ClassNameMap<Map[K]> };
 export type ClassNameBinder = (...classNames: ExtendedClassName[]) => string;
