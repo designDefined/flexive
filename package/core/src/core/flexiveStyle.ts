@@ -138,3 +138,7 @@ export const parseFlexiveStyle = (f: Omit<FlexiveStyle, "deps">, defaultIsInline
         ...parseFlows(f.flow, f.align, f.justify),
         ...parseSpacing(f.spacing),
       };
+
+const keyOfFlexiveStyle = ["flex", "flow", "align", "justify", "spacing", "isInline", "disable"];
+export const isFlexiveStyle = (obj: unknown): obj is FlexiveStyle =>
+  typeof obj === "object" && obj !== null && Object.keys(obj).every(key => keyOfFlexiveStyle.includes(key));

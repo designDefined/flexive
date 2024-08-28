@@ -11,7 +11,8 @@ import {
   LiHTMLAttributes,
   TextareaHTMLAttributes,
 } from "react";
-import { ComponentMap, FlexiveComponentProps } from "../core";
+import { FlexiveComponentProps } from "../core";
+import { ComponentMap } from "../core/flexiveSystem";
 
 // common
 export type FlexiveElementProps<Map extends ComponentMap = true> = FlexiveComponentProps<
