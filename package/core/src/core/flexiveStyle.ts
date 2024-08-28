@@ -51,12 +51,13 @@ const parseFourDirectionalValue = (value?: FourDirectionalValue) => {
  */
 type Flex = [number?, number?, Value?];
 const defaultFlex: Flex = [0, 0, "auto"];
-const parseFlex = (flex?: Flex): string =>
-  [
+const parseFlex = (flex?: Flex): CSSProperties => ({
+  flex: [
     flex?.[0] ?? defaultFlex[0],
     flex?.[1] ?? defaultFlex[1],
     parsePixel(flex?.[2] !== undefined ? flex[2] : defaultFlex[2]),
-  ].join(" ");
+  ].join(" "),
+});
 
 /*
  * flow
@@ -123,6 +124,17 @@ const parseSpacing = (spacing: Spacing = []): CSSProperties => {
 };
 
 /*
+ * self
+ */
+type Self = [AlignValue?, JustifyValue?];
+const parseSelf = (self: Self = []): CSSProperties => {
+  return {
+    alignSelf: self[0],
+    justifySelf: self[1],
+  };
+};
+
+/*
  * flexive style
  */
 
@@ -130,12 +142,18 @@ const parseSpacing = (spacing: Spacing = []): CSSProperties => {
  * Inline style object that contains rules for flex-based layouts.
  */
 export type FlexiveStyle = {
+  // flex
   flex?: Flex;
+  // flows
   flow?: Flow;
   align?: Align;
   justify?: Justify;
-  spacing?: Spacing;
   overflow?: Overflow;
+  // spacing
+  spacing?: Spacing;
+  // self
+  self?: Self;
+  // config
   isInline?: boolean;
   disable?: boolean;
   deps?: unknown[];
@@ -146,9 +164,10 @@ export const parseFlexiveStyle = (f: Omit<FlexiveStyle, "deps">, defaultIsInline
     ? {}
     : {
         display: (f?.isInline ?? defaultIsInline) ? "inline-flex" : "flex",
-        flex: parseFlex(f.flex),
+        ...parseFlex(f.flex),
         ...parseFlows(f.flow, f.align, f.justify, f.overflow),
         ...parseSpacing(f.spacing),
+        ...parseSelf(f.self),
       };
 
 const keyOfFlexiveStyle = ["flex", "flow", "align", "justify", "spacing", "overflow", "isInline", "disable"];
