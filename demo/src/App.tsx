@@ -27,7 +27,7 @@ function App() {
   console.log(fx.root({ flex: [1, 1, 1] }));
   console.log(fx.child.a({ flex: [3, 3, 3] }));
 
-  console.log(cx2.root("single"));
+  console.log(cx2.root("single", { a: undefined }));
   console.log(fx2.root({ flex: [4, 4, 4] }));
 
   console.log(fx2.root());
