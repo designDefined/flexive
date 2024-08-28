@@ -76,8 +76,19 @@ type Justify = [JustifyValue?, OverflowValue?, Value?, Value?];
  * [Direction, Wrap, Align, Justify]
  */
 type Flow = [DirectionValue?, WrapValue?, AlignValue?, JustifyValue?];
+
+/**
+ * [OverflowX, OverflowY]
+ */
+type Overflow = [OverflowValue?, OverflowValue?];
+
 const defaultFlow: Flow = ["column", "nowrap"];
-const parseFlows = (flow: Flow = defaultFlow, align: Align = [], justify: Justify = []): CSSProperties => {
+const parseFlows = (
+  flow: Flow = defaultFlow,
+  align: Align = [],
+  justify: Justify = [],
+  overflow: Overflow = [],
+): CSSProperties => {
   const isHorizontal = flow[0] === "row" || flow[0] === "row-reverse";
   const alignKey = isHorizontal ? "Height" : "Width";
   const justifyKey = isHorizontal ? "Width" : "Height";
@@ -90,8 +101,8 @@ const parseFlows = (flow: Flow = defaultFlow, align: Align = [], justify: Justif
     [`min${alignKey}`]: align[2],
     [`max${justifyKey}`]: justify[1],
     [`min${justifyKey}`]: justify[2],
-    [`overflow${isHorizontal ? "X" : "Y"}`]: justify[3],
-    [`overflow${isHorizontal ? "Y" : "X"}`]: align[3],
+    [`overflow${isHorizontal ? "X" : "Y"}`]: justify[1] ?? overflow[0],
+    [`overflow${isHorizontal ? "Y" : "X"}`]: align[1] ?? overflow[1],
   };
 };
 
@@ -124,6 +135,7 @@ export type FlexiveStyle = {
   align?: Align;
   justify?: Justify;
   spacing?: Spacing;
+  overflow?: Overflow;
   isInline?: boolean;
   disable?: boolean;
   deps?: unknown[];
@@ -135,10 +147,10 @@ export const parseFlexiveStyle = (f: Omit<FlexiveStyle, "deps">, defaultIsInline
     : {
         display: (f?.isInline ?? defaultIsInline) ? "inline-flex" : "flex",
         flex: parseFlex(f.flex),
-        ...parseFlows(f.flow, f.align, f.justify),
+        ...parseFlows(f.flow, f.align, f.justify, f.overflow),
         ...parseSpacing(f.spacing),
       };
 
-const keyOfFlexiveStyle = ["flex", "flow", "align", "justify", "spacing", "isInline", "disable"];
+const keyOfFlexiveStyle = ["flex", "flow", "align", "justify", "spacing", "overflow", "isInline", "disable"];
 export const isFlexiveStyle = (obj: unknown): obj is FlexiveStyle =>
   typeof obj === "object" && obj !== null && Object.keys(obj).every(key => keyOfFlexiveStyle.includes(key));
