@@ -84,7 +84,7 @@ type Overflow = [OverflowValue?, OverflowValue?];
 
 const defaultFlow: Flow = ["column", "nowrap"];
 const parseFlows = (
-  flow: Flow = defaultFlow,
+  flow: Flow = [],
   align: Align = [],
   justify: Justify = [],
   overflow: Overflow = [],
@@ -94,7 +94,7 @@ const parseFlows = (
   const justifyKey = isHorizontal ? "Width" : "Height";
 
   return {
-    flexFlow: `${flow[0]} ${flow[1]}`,
+    flexFlow: `${flow[0] ?? defaultFlow[0]} ${flow[1] ?? defaultFlow[1]}`,
     alignItems: align[0] ?? flow[2],
     justifyContent: justify[0] ?? flow[3],
     [`max${alignKey}`]: align[1],
