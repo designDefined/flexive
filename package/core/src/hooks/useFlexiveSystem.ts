@@ -7,6 +7,7 @@ import {
   ClassNameMap,
   ComponentMap,
   ComponentMapWithRoot,
+  ComponentMapBindedWithRoot,
   createClassNameBinder,
   createFlexiveStyleBinder,
   FlexiveStyleBinderMap,
@@ -25,17 +26,17 @@ export const useFlexiveSystem = <Map extends ComponentMap>(
   { className, css, f }: UseFlexiveSystemParams<Map>,
   deps: unknown[] = [],
 ) => {
-  const mapWithRoot: ComponentMapWithRoot<Map> = addRoot(map);
+  const mapWithRoot: ComponentMapBindedWithRoot<Map> = addRoot(map);
 
-  const cx: ClassNameBinderMap<ComponentMapWithRoot<Map>> = useMemo(() => {
+  const cx: ClassNameBinderMap<ComponentMapBindedWithRoot<Map>> = useMemo(() => {
     const classNameMap = (typeof className === "string" ? { root: className } : className) as ClassNameMap<
-      ComponentMapWithRoot<Map>
+      ComponentMapBindedWithRoot<Map>
     >;
     return createClassNameBinder(mapWithRoot, css, classNameMap);
   }, [...deps]);
 
-  const fx: FlexiveStyleBinderMap<ComponentMapWithRoot<Map>> = useMemo(() => {
-    const styleMap = (isFlexiveStyle(f) ? { root: f } : f) as FlexiveStyleMap<ComponentMapWithRoot<Map>>;
+  const fx: FlexiveStyleBinderMap<ComponentMapBindedWithRoot<Map>> = useMemo(() => {
+    const styleMap = (isFlexiveStyle(f) ? { root: f } : f) as FlexiveStyleMap<ComponentMapBindedWithRoot<Map>>;
     return createFlexiveStyleBinder(mapWithRoot, styleMap);
   }, [...deps]);
 

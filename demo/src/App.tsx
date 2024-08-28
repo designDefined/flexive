@@ -14,12 +14,21 @@ function App() {
     },
   );
 
+  const { cx: cx2, fx: fx2 } = useFlexiveSystem(true, {
+    className: "NoRoot",
+    f: { flex: [0] },
+    css: styles,
+  });
+
   console.log(cx.root({ App: true })); // App root
   console.log(cx.child.a("A")); // A
   console.log(cx.child.b({ B: false })); // B b
 
   console.log(fx.root({ flex: [1, 1, 1] }));
   console.log(fx.child.a({ flex: [3, 3, 3] }));
+
+  console.log(cx2.root("single"));
+  console.log(fx2.root({ flex: [4, 4, 4] }));
 
   return (
     <Main
