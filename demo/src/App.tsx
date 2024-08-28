@@ -1,3 +1,4 @@
+import styles from ".//App.module.css";
 import { Div, Main, useFlexiveSystem } from "@flexive/core";
 import { useState } from "react";
 
@@ -5,13 +6,17 @@ function App() {
   const [val, setVal] = useState("100");
   const { cx, fx } = useFlexiveSystem(
     { child: { a: true, b: true } },
-    { className: "single", f: { flex: [0] } },
-    // { className: { root: "root", child: { b: "b" } }, f: { root: { flex: [0] }, child: { a: { flex: [2] } } } },
+    // { className: "single", f: { flex: [0] }, css: styles },
+    {
+      className: { root: "root", child: { b: "b" } },
+      f: { root: { flex: [0] }, child: { a: { flex: [2] } } },
+      css: styles,
+    },
   );
 
-  console.log(cx.root("App")); // App root
+  console.log(cx.root({ App: true })); // App root
   console.log(cx.child.a("A")); // A
-  console.log(cx.child.b("B")); // B b
+  console.log(cx.child.b({ B: false })); // B b
 
   console.log(fx.root({ flex: [1, 1, 1] }));
   console.log(fx.child.a({ flex: [3, 3, 3] }));

@@ -1,3 +1,4 @@
+import { ExtendedClassName, parseExtendedClassNames } from "../utils/classNames";
 import { mergeStyle } from "../utils/merge";
 import { FlexiveStyle } from "./flexiveStyle";
 
@@ -8,23 +9,25 @@ export const addRoot = <Map extends ComponentMap>(map: Map): ComponentMapWithRoo
   (typeof map === "object" ? { root: true, ...map } : true) as ComponentMapWithRoot<Map>;
 
 export type ClassNameMap<Map> = Map extends true ? string : { [K in keyof Map]?: ClassNameMap<Map[K]> };
-export type ClassNameBinder = (className: string) => string;
+export type ClassNameBinder = (...classNames: ExtendedClassName[]) => string;
 export type ClassNameBinderMap<Map> = Map extends true
   ? ClassNameBinder
   : { [K in keyof Map]: ClassNameBinderMap<Map[K]> };
-const mergeClasses = (...arr: (string | undefined)[]) => arr.filter(c => !!c).join(" ");
+
 export const createClassNameBinder = <Map extends ComponentMap>(
   map: Map,
+  css?: Record<string, string>,
   classNameMap?: ClassNameMap<Map>,
 ): ClassNameBinderMap<Map> => {
   if (isMapEnd(map))
-    return ((className: string) =>
-      mergeClasses(className, classNameMap as string | undefined)) as ClassNameBinderMap<Map>;
+    return ((...classNames: ExtendedClassName[]) =>
+      parseExtendedClassNames([...classNames, classNameMap as string | undefined], css)) as ClassNameBinderMap<Map>;
 
   const keyOfMap = Object.keys(map) as (keyof Map)[];
   return keyOfMap.reduce((acc, key) => {
     acc[key] = createClassNameBinder(
       map[key] as ComponentMap,
+      css,
       classNameMap?.[key as keyof ClassNameMap<Map>] as ClassNameMap<unknown>,
     );
     return acc;
