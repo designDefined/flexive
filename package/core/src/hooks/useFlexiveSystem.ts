@@ -1,8 +1,42 @@
-// import { FlexiveStyle } from "../core/flexiveStyle";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-// type UseFlexiveSystemParams = {
-//   f: FlexiveStyle;
-//   cssModule?: Record<string, string>;
-// };
+import { useMemo } from "react";
+import {
+  addRoot,
+  ClassNameBinderMap,
+  ClassNameMap,
+  ComponentMap,
+  ComponentMapWithRoot,
+  createClassNameBinder,
+  createFlexiveStyleBinder,
+  FlexiveStyleBinderMap,
+  FlexiveStyleMap,
+} from "../core/flexiveSystem";
+import { FlexiveStyle, isFlexiveStyle } from "../core";
 
-// export const useFlexiveSystem = (f, cssModule }: UseFlexiveSystemParams) => {};
+type UseFlexiveSystemParams<Map extends ComponentMap> = {
+  f?: FlexiveStyle | FlexiveStyleMap<ComponentMapWithRoot<Map>>;
+  className?: string | ClassNameMap<ComponentMapWithRoot<Map>>;
+};
+
+export const useFlexiveSystem = <Map extends ComponentMap>(
+  map: Map,
+  { className, f }: UseFlexiveSystemParams<Map>,
+  deps: unknown[] = [],
+) => {
+  const mapWithRoot: ComponentMapWithRoot<Map> = addRoot(map);
+
+  const cx: ClassNameBinderMap<ComponentMapWithRoot<Map>> = useMemo(() => {
+    const classNameMap = (typeof className === "string" ? { root: className } : className) as ClassNameMap<
+      ComponentMapWithRoot<Map>
+    >;
+    return createClassNameBinder(mapWithRoot, classNameMap);
+  }, [...deps]);
+
+  const fx: FlexiveStyleBinderMap<ComponentMapWithRoot<Map>> = useMemo(() => {
+    const styleMap = (isFlexiveStyle(f) ? { root: f } : f) as FlexiveStyleMap<ComponentMapWithRoot<Map>>;
+    return createFlexiveStyleBinder(mapWithRoot, styleMap);
+  }, [...deps]);
+
+  return { cx, fx };
+};
