@@ -17,11 +17,12 @@ import { FlexiveStyle, isFlexiveStyle } from "../core";
 type UseFlexiveSystemParams<Map extends ComponentMap> = {
   f?: FlexiveStyle | FlexiveStyleMap<ComponentMapWithRoot<Map>>;
   className?: string | ClassNameMap<ComponentMapWithRoot<Map>>;
+  css?: Record<string, string>;
 };
 
 export const useFlexiveSystem = <Map extends ComponentMap>(
   map: Map,
-  { className, f }: UseFlexiveSystemParams<Map>,
+  { className, css, f }: UseFlexiveSystemParams<Map>,
   deps: unknown[] = [],
 ) => {
   const mapWithRoot: ComponentMapWithRoot<Map> = addRoot(map);
@@ -30,7 +31,7 @@ export const useFlexiveSystem = <Map extends ComponentMap>(
     const classNameMap = (typeof className === "string" ? { root: className } : className) as ClassNameMap<
       ComponentMapWithRoot<Map>
     >;
-    return createClassNameBinder(mapWithRoot, classNameMap);
+    return createClassNameBinder(mapWithRoot, css, classNameMap);
   }, [...deps]);
 
   const fx: FlexiveStyleBinderMap<ComponentMapWithRoot<Map>> = useMemo(() => {
