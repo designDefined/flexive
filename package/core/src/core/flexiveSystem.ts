@@ -4,7 +4,7 @@ import { FlexiveStyle } from "./flexiveStyle";
 
 export type ComponentMap = { [key: string]: ComponentMap | true } | true;
 export type ComponentMapWithRoot<Map extends ComponentMap> = Map extends true ? true : { root: true } & Map;
-export type ComponentMapBindedWithRoot<Map extends ComponentMap> = Map extends true
+export type ComponentMapBindedWithRoot<Map extends ComponentMap> = Map extends true // TODO: Refine naming (naming is too long and ambiguous)
   ? { root: true }
   : { root: true } & Map;
 export const isMapEnd = (map: ComponentMap): map is true => map === true;
