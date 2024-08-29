@@ -64,12 +64,12 @@ const parseFlex = (flex?: Flex): CSSProperties => ({
  */
 
 /**
- * [Align, Overflow, AlignMax, AlignMin]
+ * [Align, Overflow, AlignMin, AlignMax]
  */
 type Align = [AlignValue?, OverflowValue?, Value?, Value?];
 
 /**
- * [Justify, Overflow, JustifyMax, JustifyMin]
+ * [Justify, Overflow, JustifyMin, JustifyMax]
  */
 type Justify = [JustifyValue?, OverflowValue?, Value?, Value?];
 
@@ -98,10 +98,10 @@ const parseFlows = (
     flexFlow: `${flow[0] ?? defaultFlow[0]} ${flow[1] ?? defaultFlow[1]}`,
     alignItems: align[0] ?? flow[2],
     justifyContent: justify[0] ?? flow[3],
-    [`max${alignKey}`]: align[1],
     [`min${alignKey}`]: align[2],
-    [`max${justifyKey}`]: justify[1],
+    [`max${alignKey}`]: align[3],
     [`min${justifyKey}`]: justify[2],
+    [`max${justifyKey}`]: justify[3],
     [`overflow${isHorizontal ? "X" : "Y"}`]: justify[1] ?? overflow[0],
     [`overflow${isHorizontal ? "Y" : "X"}`]: align[1] ?? overflow[1],
   };
