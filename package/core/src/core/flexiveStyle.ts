@@ -170,6 +170,17 @@ export const parseFlexiveStyle = (f: Omit<FlexiveStyle, "deps">, defaultIsInline
         ...parseSelf(f.self),
       };
 
-const keyOfFlexiveStyle = ["flex", "flow", "align", "justify", "spacing", "overflow", "isInline", "disable"];
+const keyOfFlexiveStyle = [
+  "flex",
+  "flow",
+  "align",
+  "justify",
+  "overflow",
+  "spacing",
+  "self",
+  "isInline",
+  "disable",
+  "deps",
+];
 export const isFlexiveStyle = (obj: unknown): obj is FlexiveStyle =>
   typeof obj === "object" && obj !== null && Object.keys(obj).every(key => keyOfFlexiveStyle.includes(key));
