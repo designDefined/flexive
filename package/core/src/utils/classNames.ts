@@ -1,6 +1,6 @@
 import { Falsy } from "./falsy";
 
-export type ExtendedClassName = string | Falsy | Record<string, boolean>;
+export type ExtendedClassName = string | Falsy | Record<string, boolean | Falsy>;
 
 export const parseExtendedClassNames = (classNames: ExtendedClassName[], bind?: Record<string, string>): string => {
   const mapped = classNames
@@ -8,7 +8,7 @@ export const parseExtendedClassNames = (classNames: ExtendedClassName[], bind?: 
     .flatMap(c =>
       typeof c === "object" && c !== null
         ? Object.entries(c)
-            .filter(([, bool]) => bool)
+            .filter(([, bool]) => !!bool)
             .map(([name]) => name)
         : [c as string],
     );
