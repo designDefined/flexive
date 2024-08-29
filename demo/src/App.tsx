@@ -16,7 +16,7 @@ function App() {
 
   const { cx: cx2, fx: fx2 } = useFlexiveSystem(true, {
     className: "NoRoot",
-    f: { flex: [0] },
+    f: { flex: [0], flow: ["row"], self: ["center"] },
     css: styles,
   });
 
@@ -29,11 +29,6 @@ function App() {
 
   console.log(cx2.root("single", { a: undefined }));
   console.log(fx2.root({ flex: [4, 4, 4] }));
-
-  console.log(fx2.root());
-
-  const f = useFlexiveStyle({ flow: ["row"], justify: ["center", "scroll"], overflow: ["hidden", "auto"] });
-  console.log(f);
 
   return (
     <Main
