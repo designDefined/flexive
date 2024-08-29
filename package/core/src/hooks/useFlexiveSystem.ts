@@ -33,7 +33,7 @@ export const useFlexiveSystem = <Map extends ComponentMap>(
       ComponentMapBindedWithRoot<Map>
     >;
     return createClassNameBinder(mapWithRoot, css, classNameMap);
-  }, [...deps]);
+  }, [...deps, className]);
 
   const fx: FlexiveStyleBinderMap<ComponentMapBindedWithRoot<Map>> = useMemo(() => {
     const styleMap = (isFlexiveStyle(f) ? { root: f } : f) as FlexiveStyleMap<ComponentMapBindedWithRoot<Map>>;
