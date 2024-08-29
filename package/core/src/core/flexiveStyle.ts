@@ -183,4 +183,4 @@ const keyOfFlexiveStyle = [
   "deps",
 ];
 export const isFlexiveStyle = (obj: unknown): obj is FlexiveStyle =>
-  typeof obj === "object" && obj !== null && Object.keys(obj).every(key => keyOfFlexiveStyle.includes(key));
+  typeof obj === "object" && obj !== null && Object.keys(obj).every(key => keyOfFlexiveStyle.includes(key)); // TODO: Refine logic because this type predicate is not sustainable to changes in FlexiveStyle
