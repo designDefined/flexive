@@ -51,12 +51,9 @@ const parseFourDirectionalValue = (value?: FourDirectionalValue) => {
  */
 type Flex = [number?, number?, Value?];
 const defaultFlex: Flex = [0, 0, "auto"];
-const parseFlex = (flex?: Flex): CSSProperties => ({
-  flex: [
-    flex?.[0] ?? defaultFlex[0],
-    flex?.[1] ?? defaultFlex[1],
-    parsePixel(flex?.[2] !== undefined ? flex[2] : defaultFlex[2]),
-  ].join(" "),
+const parseFlex = (flex?: Flex, isInline?: boolean): CSSProperties => ({
+  display: isInline ? "inline-flex" : "flex",
+  flex: `${flex?.[0] ?? defaultFlex[0]} ${flex?.[1] ?? defaultFlex[1]} ${parsePixel(flex?.[2] ?? defaultFlex[2])}`,
 });
 
 /*
@@ -64,14 +61,14 @@ const parseFlex = (flex?: Flex): CSSProperties => ({
  */
 
 /**
- * [Align, Overflow, AlignMin, AlignMax]
+ * [Align, Overflow, AlignMin, AlignMax, AlignValue]
  */
-type Align = [AlignValue?, OverflowValue?, Value?, Value?];
+type Align = [AlignValue?, OverflowValue?, Value?, Value?, Value?];
 
 /**
- * [Justify, Overflow, JustifyMin, JustifyMax]
+ * [Justify, Overflow, JustifyMin, JustifyMax, JustifyValue]
  */
-type Justify = [JustifyValue?, OverflowValue?, Value?, Value?];
+type Justify = [JustifyValue?, OverflowValue?, Value?, Value?, Value?];
 
 /**
  * [Direction, Wrap, Align, Justify]
@@ -100,8 +97,10 @@ const parseFlows = (
     justifyContent: justify[0] ?? flow[3],
     [`min${alignKey}`]: align[2],
     [`max${alignKey}`]: align[3],
+    [`${alignKey.toLowerCase()}`]: align[4],
     [`min${justifyKey}`]: justify[2],
     [`max${justifyKey}`]: justify[3],
+    [`${justifyKey.toLowerCase()}`]: justify[4],
     [`overflow${isHorizontal ? "X" : "Y"}`]: justify[1] ?? overflow[0],
     [`overflow${isHorizontal ? "Y" : "X"}`]: align[1] ?? overflow[1],
   };
@@ -115,24 +114,17 @@ const parseFlows = (
  * [Padding, Gap, Margin]
  */
 type Spacing = [FourDirectionalValue?, TwoDirectionalValue?, FourDirectionalValue?];
-const parseSpacing = (spacing: Spacing = []): CSSProperties => {
-  return {
-    padding: parseFourDirectionalValue(spacing[0]),
-    gap: parseTwoDirectionalValue(spacing[1]),
-    margin: parseFourDirectionalValue(spacing[2]),
-  };
-};
+const parseSpacing = (spacing: Spacing = []): CSSProperties => ({
+  padding: parseFourDirectionalValue(spacing[0]),
+  gap: parseTwoDirectionalValue(spacing[1]),
+  margin: parseFourDirectionalValue(spacing[2]),
+});
 
 /*
  * self
  */
-type Self = [AlignValue?, JustifyValue?];
-const parseSelf = (self: Self = []): CSSProperties => {
-  return {
-    alignSelf: self[0],
-    justifySelf: self[1],
-  };
-};
+type Self = [AlignValue?];
+const parseSelf = (self: Self = []): CSSProperties => ({ alignSelf: self[0] });
 
 /*
  * flexive style
@@ -163,8 +155,7 @@ export const parseFlexiveStyle = (f: Omit<FlexiveStyle, "deps">, defaultIsInline
   f.disable
     ? {}
     : {
-        display: (f?.isInline ?? defaultIsInline) ? "inline-flex" : "flex",
-        ...parseFlex(f.flex),
+        ...parseFlex(f.flex, f.isInline ?? defaultIsInline),
         ...parseFlows(f.flow, f.align, f.justify, f.overflow),
         ...parseSpacing(f.spacing),
         ...parseSelf(f.self),
