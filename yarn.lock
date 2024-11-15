@@ -479,7 +479,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@flexive/core@workspace:^, @flexive/core@workspace:package/core":
+"@flexive/core-v0@workspace:^, @flexive/core-v0@workspace:package/v0":
+  version: 0.0.0-use.local
+  resolution: "@flexive/core-v0@workspace:package/v0"
+  dependencies:
+    "@types/node": "npm:^22.5.0"
+    "@types/react": "npm:^18.2.66"
+    "@types/react-dom": "npm:^18.2.22"
+    "@typescript-eslint/eslint-plugin": "npm:^7.2.0"
+    "@typescript-eslint/parser": "npm:^7.2.0"
+    "@vitejs/plugin-react": "npm:^4.2.1"
+    eslint: "npm:^8.57.0"
+    eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-react-refresh: "npm:^0.4.6"
+    typescript: "npm:^5.2.2"
+    vite: "npm:^5.2.0"
+    vite-plugin-dts: "npm:^4.0.3"
+    vite-tsconfig-paths: "npm:^4.3.2"
+  peerDependencies:
+    react: ^18.2.0
+    react-dom: ^18.2.0
+  languageName: unknown
+  linkType: soft
+
+"@flexive/core@workspace:package/core":
   version: 0.0.0-use.local
   resolution: "@flexive/core@workspace:package/core"
   dependencies:
@@ -1740,7 +1763,7 @@ __metadata:
   resolution: "demo@workspace:demo"
   dependencies:
     "@eslint/js": "npm:^9.9.0"
-    "@flexive/core": "workspace:^"
+    "@flexive/core-v0": "workspace:^"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
