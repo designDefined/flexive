@@ -102,7 +102,7 @@ const parseFlows = (
     [`max${justifyKey}`]: justify[3],
     [`${justifyKey.toLowerCase()}`]: justify[4],
     [`overflow${isHorizontal ? "X" : "Y"}`]: justify[1] ?? overflow[0],
-    [`overflow${isHorizontal ? "Y" : "X"}`]: align[1] ?? overflow[1],
+    [`overflow${isHorizontal ? "Y" : "X"}`]: align[1] ?? overflow[1] ?? overflow[0],
   };
 };
 

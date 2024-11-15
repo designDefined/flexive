@@ -14,3 +14,19 @@ export default function LabeledInput({ f, className, labelText, ...props }: Labe
   );
 }
 ```
+
+```tsx
+export const Page = () => {
+  return (
+    <Main grow p={{ x: 12, y: 24 }} g={20} o>
+      <Header>
+        <H1>Be water, my layout!</H1>
+      </Header>
+      <Article></Article>
+      <Article>
+        <H3></H3>
+      </Article>
+    </Main>
+  );
+};
+```
