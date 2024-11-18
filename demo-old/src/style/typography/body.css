@@ -1,0 +1,14 @@
+.typo-body-sans {
+  font-family: "Cabinet Grotesk", sans-serif;
+}
+.typo-body-serif {
+  font-family: "Zodiak", serif;
+}
+
+body,
+p {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-size: 1.25rem; /* 20px */
+  line-height: 140%;
+  text-align: justify;
+}

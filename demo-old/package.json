@@ -1,5 +1,5 @@
 {
-  "name": "demo",
+  "name": "demo-old",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@flexive/core": "workspace:^",
+    "@flexive/core-old": "workspace:^",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2"
