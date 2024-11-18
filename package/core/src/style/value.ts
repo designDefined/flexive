@@ -9,7 +9,6 @@ export const isUndefined = (value: unknown): value is undefined => value === und
 export const isBoolean = (value: unknown, bool?: boolean): value is boolean =>
   typeof value === "boolean" && (isUndefined(bool) || value === bool);
 export const isNumber = (value: unknown): value is number => typeof value === "number";
-export const isString = (value: unknown): value is string => typeof value === "string";
 
 // parse
 export const parseSize: (value?: SizeValue) => string | undefined = value => {
