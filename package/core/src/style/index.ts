@@ -1,3 +1,4 @@
 export * from "./value";
 export * from "./layoutStyle";
-export * from "./useLayoutStyle";
+export * from "./flexiveStyle";
+export * from "./useFlexiveStyle";
