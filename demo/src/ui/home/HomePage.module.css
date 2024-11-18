@@ -2,15 +2,3 @@
   font-size: 120px;
   font-weight: 700;
 }
-
-.HomePage .tab {
-  border: 2px solid #5f5f5f;
-  color: rgb(50, 50, 50);
-  /* background-color: #000; */
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-}
-.HomePage .tab:last-child {
-  opacity: 0.2;
-}
