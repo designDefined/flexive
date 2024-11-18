@@ -1,6 +1,7 @@
 import { CSSProperties, useMemo } from "react";
 import { FlexiveStyle } from "./flexiveStyle";
 import { parseLayoutStyle } from "./layoutStyle";
+import { parseUtilityStyle } from "./utilityStyle";
 
 export const useFlexiveStyle = ({
   // layout style
@@ -41,9 +42,19 @@ export const useFlexiveStyle = ({
   mb,
   ml,
   g,
-
   mainOver,
   crossOver,
+
+  // utility style
+  static: _static,
+  fixed,
+  absolute,
+  sticky,
+  top,
+  right,
+  bottom,
+  left,
+  rad,
 
   // native style
   style: nativeStyle,
@@ -91,7 +102,19 @@ export const useFlexiveStyle = ({
       crossOver,
     });
 
-    return { ...layoutStyle, ...nativeStyle };
+    const utilityStyle = parseUtilityStyle({
+      static: _static,
+      fixed,
+      absolute,
+      sticky,
+      top,
+      right,
+      bottom,
+      left,
+      rad,
+    });
+
+    return { ...utilityStyle, ...layoutStyle, ...nativeStyle };
   }, [
     inline,
     inlineFlex,
@@ -132,6 +155,15 @@ export const useFlexiveStyle = ({
     g,
     mainOver,
     crossOver,
+    _static,
+    fixed,
+    absolute,
+    sticky,
+    top,
+    right,
+    bottom,
+    left,
+    rad,
     nativeStyle,
   ]);
 

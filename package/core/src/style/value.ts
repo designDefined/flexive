@@ -1,5 +1,4 @@
 export type SizeValue = string | number;
-
 export type JustifyValue = "start" | "end" | "center" | "between" | "around" | "evenly";
 export type AlignValue = "start" | "end" | "center" | "stretch" | "baseline";
 export type OverflowValue = "auto" | "hidden" | "scroll" | "visible";
