@@ -15,3 +15,8 @@ export const parseExtendedClassNames = (classNames: ExtendedClassName[], bind?: 
   const binded = bind === undefined ? mapped : mapped.map(c => bind[c] ?? c);
   return binded.join(" ");
 };
+
+export const bindCSS =
+  (css: Record<string, string>) =>
+  (...classNames: ExtendedClassName[]) =>
+    parseExtendedClassNames(classNames, css);

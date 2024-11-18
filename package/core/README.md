@@ -18,8 +18,8 @@ export default function LabeledInput({ f, className, labelText, ...props }: Labe
 ```tsx
 export const Page = () => {
   return (
-    <Main grow p={{ x: 12, y: 24 }} g={20} o>
-      <Header>
+    <Main grow shrink px={12} py={24} g={20}>
+      <Header row py={16} g={8}>
         <H1>Be water, my layout!</H1>
       </Header>
       <Article></Article>
@@ -27,6 +27,28 @@ export const Page = () => {
         <H3></H3>
       </Article>
     </Main>
+  );
+};
+```
+
+```tsx
+type InputTextProps = FlexiveInputProps & { labelProps?: FlexiveLabelProps; wrapperProps?: FlexiveDivProps };
+
+export const InputText = ({ labelText, className, labelProps, wrapperProps, ...props }: InputTextProps) => {
+  return (
+    <Div g={20} className={cx("InoutText", className)} {...wrapperProps}>
+      <Label {...labelProps}>{labelText}</Label>
+      <Input type="text" {...props} />
+    </Div>
+  );
+};
+
+export const Page = () => {
+  return (
+    <Div>
+      <H3>HEADER</H3>
+      <InputText p={20} labelProps={{ p: 20 }} />
+    </Div>
   );
 };
 ```

@@ -1,4 +1,3 @@
-export * from "./src/core";
-export * from "./src/elements";
-export * from "./src/hooks";
-export * from "./src/types";
+export * from "./src/element";
+export * from "./src/style";
+export * from "./src/utility";
