@@ -1,12 +1,10 @@
 import { CSSProperties } from "react";
 import {
   AlignValue,
-  DirectionalSizeValue,
   isBoolean,
-  isSizeValue,
   JustifyValue,
   OverflowValue,
-  parseDirectionalSize,
+  parseDirectionalSizes,
   parseSize,
   SizeValue,
 } from "./value";
@@ -43,8 +41,22 @@ export type LayoutStyle = {
   crossMin?: SizeValue;
 
   /* spacing */
-  p?: SizeValue | DirectionalSizeValue;
-  m?: SizeValue | DirectionalSizeValue;
+  p?: SizeValue;
+  px?: SizeValue;
+  py?: SizeValue;
+  pt?: SizeValue;
+  pr?: SizeValue;
+  pb?: SizeValue;
+  pl?: SizeValue;
+
+  m?: SizeValue;
+  mx?: SizeValue;
+  my?: SizeValue;
+  mt?: SizeValue;
+  mr?: SizeValue;
+  mb?: SizeValue;
+  ml?: SizeValue;
+
   g?: SizeValue;
 
   /* overflow */
@@ -106,9 +118,9 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     /* axis dependent values */
     ...parseAxisStyle(layout),
 
-    // /* spacing */
-    padding: isSizeValue(layout?.p) ? parseSize(layout.p) : parseDirectionalSize(layout?.p),
-    margin: isSizeValue(layout?.m) ? parseSize(layout.m) : parseDirectionalSize(layout?.m),
+    /* spacing */
+    padding: parseDirectionalSizes(layout?.p, layout?.px, layout?.py, layout?.pt, layout?.pr, layout?.pb, layout?.pl),
+    margin: parseDirectionalSizes(layout?.m, layout?.mx, layout?.my, layout?.mt, layout?.mr, layout?.mb, layout?.ml),
     gap: parseSize(layout?.g),
   };
 };

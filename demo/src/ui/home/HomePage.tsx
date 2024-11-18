@@ -6,7 +6,7 @@ const cx = bindCSS(styles);
 
 export const HomePage = () => {
   return (
-    <FullScreen className={cx("HomePage")} style={{ background: "red" }}>
+    <FullScreen className={cx("HomePage")} py={1} pb={3} style={{ background: "red" }}>
       <H1 className={cx("title")}>Flexive!</H1>
     </FullScreen>
   );
