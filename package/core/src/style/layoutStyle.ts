@@ -60,6 +60,7 @@ export type LayoutStyle = {
   g?: SizeValue;
 
   /* overflow */
+  over?: OverflowValue | boolean;
   mainOver?: OverflowValue | boolean;
   crossOver?: OverflowValue | boolean;
 };
@@ -79,6 +80,7 @@ type AxisDependentLayoutStyle = Pick<
   | "crossMin"
   | "crossMax"
   | "crossSize"
+  | "over"
   | "mainOver"
   | "crossOver"
 >;
@@ -99,8 +101,16 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
     [cross.size.toLowerCase()]: parseSize(axis.crossSize),
     [`min${cross.size}`]: parseSize(axis.crossMin),
     [`max${cross.size}`]: parseSize(axis.crossMax),
-    [`overflow${main.dir}`]: isBoolean(axis.mainOver) ? (axis.mainOver ? "auto" : "hidden") : axis.mainOver,
-    [`overflow${cross.dir}`]: isBoolean(axis.crossOver) ? (axis.crossOver ? "auto" : "hidden") : axis.crossOver,
+    [`overflow${main.dir}`]: isBoolean(axis.mainOver)
+      ? axis.mainOver
+        ? "auto"
+        : "hidden"
+      : (axis.mainOver ?? axis.over),
+    [`overflow${cross.dir}`]: isBoolean(axis.crossOver)
+      ? axis.crossOver
+        ? "auto"
+        : "hidden"
+      : (axis.crossOver ?? axis.over),
   };
 };
 

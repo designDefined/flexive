@@ -42,6 +42,7 @@ export const useFlexiveStyle = ({
   mb,
   ml,
   g,
+  over,
   mainOver,
   crossOver,
 
@@ -98,6 +99,7 @@ export const useFlexiveStyle = ({
       mb,
       ml,
       g,
+      over,
       mainOver,
       crossOver,
     });
@@ -153,6 +155,7 @@ export const useFlexiveStyle = ({
     mb,
     ml,
     g,
+    over,
     mainOver,
     crossOver,
     _static,
