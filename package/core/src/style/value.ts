@@ -29,8 +29,8 @@ export const parseDirectionalSizes = (
     return result.map(parseSize).join(" ");
   }
   if (!isUndefined(x) || !isUndefined(y)) {
-    result.push(x ?? rt ?? 0);
     result.push(y ?? rt ?? 0);
+    result.push(x ?? rt ?? 0);
     return result.map(parseSize).join(" ");
   }
   return parseSize(rt);

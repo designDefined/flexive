@@ -27,18 +27,18 @@ export type LayoutStyle = {
   wrap?: boolean;
   wrapReverse?: boolean;
   nowrap?: boolean;
-  mainAlign?: JustifyValue;
-  crossAlign?: AlignValue;
-  mainSelf?: JustifyValue;
-  crossSelf?: AlignValue;
+  alignM?: JustifyValue;
+  alignC?: AlignValue;
+  alignSelfM?: JustifyValue;
+  alignSelfC?: AlignValue;
 
   /* sizing */
-  mainSize?: SizeValue;
-  mainMax?: SizeValue;
-  mainMin?: SizeValue;
-  crossSize?: SizeValue;
-  crossMax?: SizeValue;
-  crossMin?: SizeValue;
+  sizeM?: SizeValue;
+  maxM?: SizeValue;
+  minM?: SizeValue;
+  sizeC?: SizeValue;
+  maxC?: SizeValue;
+  minC?: SizeValue;
 
   /* spacing */
   p?: SizeValue;
@@ -60,8 +60,9 @@ export type LayoutStyle = {
   g?: SizeValue;
 
   /* overflow */
-  mainOver?: OverflowValue | boolean;
-  crossOver?: OverflowValue | boolean;
+  over?: OverflowValue | boolean;
+  overM?: OverflowValue | boolean;
+  overC?: OverflowValue | boolean;
 };
 
 type AxisDependentLayoutStyle = Pick<
@@ -69,18 +70,19 @@ type AxisDependentLayoutStyle = Pick<
   | "colReverse"
   | "row"
   | "rowReverse"
-  | "mainAlign"
-  | "mainSelf"
-  | "crossAlign"
-  | "crossSelf"
-  | "mainMin"
-  | "mainMax"
-  | "mainSize"
-  | "crossMin"
-  | "crossMax"
-  | "crossSize"
-  | "mainOver"
-  | "crossOver"
+  | "alignM"
+  | "alignSelfM"
+  | "alignC"
+  | "alignSelfC"
+  | "minM"
+  | "maxM"
+  | "sizeM"
+  | "minC"
+  | "maxC"
+  | "sizeC"
+  | "over"
+  | "overM"
+  | "overC"
 >;
 export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties => {
   const isRow = axis.row || axis.rowReverse;
@@ -89,18 +91,18 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 
   return {
     flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
-    justifyContent: axis.mainAlign,
-    justifySelf: axis.mainSelf,
-    alignItems: axis.crossAlign,
-    alignSelf: axis.crossSelf,
-    [main.size.toLowerCase()]: parseSize(axis.mainSize),
-    [`min${main.size}`]: parseSize(axis.mainMin),
-    [`max${main.size}`]: parseSize(axis.mainMax),
-    [cross.size.toLowerCase()]: parseSize(axis.crossSize),
-    [`min${cross.size}`]: parseSize(axis.crossMin),
-    [`max${cross.size}`]: parseSize(axis.crossMax),
-    [`overflow${main.dir}`]: isBoolean(axis.mainOver) ? (axis.mainOver ? "auto" : "hidden") : axis.mainOver,
-    [`overflow${cross.dir}`]: isBoolean(axis.crossOver) ? (axis.crossOver ? "auto" : "hidden") : axis.crossOver,
+    justifyContent: axis.alignM,
+    justifySelf: axis.alignSelfM,
+    alignItems: axis.alignC,
+    alignSelf: axis.alignSelfC,
+    [main.size.toLowerCase()]: parseSize(axis.sizeM),
+    [`min${main.size}`]: parseSize(axis.minM),
+    [`max${main.size}`]: parseSize(axis.maxM),
+    [cross.size.toLowerCase()]: parseSize(axis.sizeC),
+    [`min${cross.size}`]: parseSize(axis.minC),
+    [`max${cross.size}`]: parseSize(axis.maxC),
+    [`overflow${main.dir}`]: isBoolean(axis.overM) ? (axis.overM ? "auto" : "hidden") : (axis.overM ?? axis.over),
+    [`overflow${cross.dir}`]: isBoolean(axis.overC) ? (axis.overC ? "auto" : "hidden") : (axis.overC ?? axis.over),
   };
 };
 
@@ -110,9 +112,9 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
 
     /* flex */
-    flexGrow: isBoolean(layout?.grow) ? (layout.grow ? 1 : 0) : layout?.grow,
-    flexShrink: isBoolean(layout?.shrink) ? (layout.shrink ? 1 : 0) : layout?.shrink,
-    flexBasis: parseSize(layout?.basis),
+    flexGrow: isBoolean(layout?.grow) ? (layout.grow ? 1 : 0) : (layout?.grow ?? 0),
+    flexShrink: isBoolean(layout?.shrink) ? (layout.shrink ? 1 : 0) : (layout?.shrink ?? 0),
+    flexBasis: parseSize(layout?.basis) ?? "auto",
     flexWrap: layout?.wrap ? "wrap" : layout?.wrapReverse ? "wrap-reverse" : layout?.nowrap ? "nowrap" : undefined,
 
     /* axis dependent values */

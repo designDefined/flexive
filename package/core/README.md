@@ -1,6 +1,6 @@
-# Flexive
+# Flexive Core
 
-> Flexbox-based, html-like design system builder.
+> Flexbox-based, html-like design system builder for React
 
 ## Table of content
 
@@ -9,6 +9,45 @@
 - [Status of the Module](#status-of-the-module)
 
 ## Getting Started
+
+### Installation
+
+```bash
+yarn add @flexive/core
+# or npm
+npm add @flexive/core
+```
+
+### Basic Usage
+
+`Flexive` provides a set of **Base components** that only casing differs from normal JSX tags. Use base components in substitute of JSX.
+
+```tsx
+import { Div, Span, Button, Input, H1, P } from "@flexive/core"; // and much more...
+```
+
+Base component has `flexive-style-props` to control `layout`, such as flex, padding, gap and overflow. Most of the props have abbreviated names in convenience, and some has directional or axial suffix. To find out **what is layout** and **why inline styling is restricted to a handful of css properties**, read [To-Way Approach](#two-way-approach) below.
+
+```tsx
+// flex-direction: row; padding: 16px 12px; gap: 20px; align-items: center;
+<Div row px={12} py={16} g={20} alignC="center" />
+```
+
+Besides the `flexive-style-props`, everything is same as normal JSX tags.
+
+```tsx
+<Input
+  type="text"
+  p={16} // flexive-style-prop for padding
+  placeholder="Type some texts" // Everything else is same
+  value={currentValue}
+  onChange={onChangeValue}
+>
+```
+
+### Recommanded Practice
+
+(WIP)
 
 ## Main Concept
 
@@ -30,6 +69,12 @@ This two-way approach affords you a **new mental model** which is useful to deve
 
 ### Pouring: The New Mental Model
 
+(WIP)
+
 ### Why Flex?
 
+(WIP)
+
 ## Status of the Module
+
+(WIP)
