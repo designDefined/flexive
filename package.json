@@ -4,11 +4,14 @@
   "private": true,
   "workspaces": [
     "demo",
+    "demo-old",
     "package/*"
   ],
   "scripts": {
     "demo": "yarn workspace demo",
-    "core": "yarn workspace @flexive/core"
+    "core": "yarn workspace @flexive/core",
+    "demo-old": "yarn workspace demo-old",
+    "core-old": "yarn workspace @flexive/core-old"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
