@@ -29,8 +29,8 @@ export type LayoutStyle = {
   nowrap?: boolean;
   mainAlign?: JustifyValue;
   crossAlign?: AlignValue;
-  mainSelf?: JustifyValue;
-  crossSelf?: AlignValue;
+  mainAlignSelf?: JustifyValue;
+  crossAlignSelf?: AlignValue;
 
   /* sizing */
   mainSize?: SizeValue;
@@ -70,9 +70,9 @@ type AxisDependentLayoutStyle = Pick<
   | "row"
   | "rowReverse"
   | "mainAlign"
-  | "mainSelf"
+  | "mainAlignSelf"
   | "crossAlign"
-  | "crossSelf"
+  | "crossAlignSelf"
   | "mainMin"
   | "mainMax"
   | "mainSize"
@@ -90,9 +90,9 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
   return {
     flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
     justifyContent: axis.mainAlign,
-    justifySelf: axis.mainSelf,
+    justifySelf: axis.mainAlignSelf,
     alignItems: axis.crossAlign,
-    alignSelf: axis.crossSelf,
+    alignSelf: axis.crossAlignSelf,
     [main.size.toLowerCase()]: parseSize(axis.mainSize),
     [`min${main.size}`]: parseSize(axis.mainMin),
     [`max${main.size}`]: parseSize(axis.mainMax),
