@@ -126,8 +126,8 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
 
     /* flex */
-    flexGrow: parseBoolable(layout.grow, 1, 0),
-    flexShrink: parseBoolable(layout.shrink, 1, 0),
+    flexGrow: parseBoolable(layout.grow, 1, 0) ?? 0,
+    flexShrink: parseBoolable(layout.shrink, 1, 0) ?? 0,
     flexBasis: parseSize(layout?.basis) ?? "auto",
     flexWrap: layout?.wrap ? "wrap" : layout?.wrapReverse ? "wrap-reverse" : layout?.nowrap ? "nowrap" : undefined,
 
