@@ -1,9 +1,9 @@
 import { CSSProperties } from "react";
 import {
   AlignValue,
-  isBoolean,
   JustifyValue,
   OverflowValue,
+  parseBoolable,
   parseDirectionalSizes,
   parseSize,
   SizeValue,
@@ -63,6 +63,9 @@ export type LayoutStyle = {
   over?: OverflowValue | boolean;
   overM?: OverflowValue | boolean;
   overC?: OverflowValue | boolean;
+  hidden?: boolean;
+  hiddenM?: boolean;
+  hiddenC?: boolean;
 };
 
 type AxisDependentLayoutStyle = Pick<
@@ -83,6 +86,9 @@ type AxisDependentLayoutStyle = Pick<
   | "over"
   | "overM"
   | "overC"
+  | "hidden"
+  | "hiddenM"
+  | "hiddenC"
 >;
 export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties => {
   const isRow = axis.row || axis.rowReverse;
@@ -101,8 +107,16 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
     [cross.size.toLowerCase()]: parseSize(axis.sizeC),
     [`min${cross.size}`]: parseSize(axis.minC),
     [`max${cross.size}`]: parseSize(axis.maxC),
-    [`overflow${main.dir}`]: isBoolean(axis.overM) ? (axis.overM ? "auto" : "hidden") : (axis.overM ?? axis.over),
-    [`overflow${cross.dir}`]: isBoolean(axis.overC) ? (axis.overC ? "auto" : "hidden") : (axis.overC ?? axis.over),
+    [`overflow${main.dir}`]: parseBoolable(
+      axis.overM ?? (axis.hiddenM ? "hidden" : undefined) ?? axis.over ?? (axis.hidden ? "hidden" : undefined),
+      "auto",
+      "hidden",
+    ),
+    [`overflow${cross.dir}`]: parseBoolable(
+      axis.overC ?? (axis.hiddenC ? "hidden" : undefined) ?? axis.over ?? (axis.hidden ? "hidden" : undefined),
+      "auto",
+      "hidden",
+    ),
   };
 };
 
@@ -112,8 +126,8 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
 
     /* flex */
-    flexGrow: isBoolean(layout?.grow) ? (layout.grow ? 1 : 0) : (layout?.grow ?? 0),
-    flexShrink: isBoolean(layout?.shrink) ? (layout.shrink ? 1 : 0) : (layout?.shrink ?? 0),
+    flexGrow: parseBoolable(layout.grow, 1, 0),
+    flexShrink: parseBoolable(layout.shrink, 1, 0),
     flexBasis: parseSize(layout?.basis) ?? "auto",
     flexWrap: layout?.wrap ? "wrap" : layout?.wrapReverse ? "wrap-reverse" : layout?.nowrap ? "nowrap" : undefined,
 
