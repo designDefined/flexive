@@ -63,9 +63,9 @@ export type LayoutStyle = {
   over?: OverflowValue | boolean;
   overM?: OverflowValue | boolean;
   overC?: OverflowValue | boolean;
-  hidden?: boolean;
-  hiddenM?: boolean;
-  hiddenC?: boolean;
+  hide?: boolean;
+  hideM?: boolean;
+  hideC?: boolean;
 };
 
 type AxisDependentLayoutStyle = Pick<
@@ -86,9 +86,9 @@ type AxisDependentLayoutStyle = Pick<
   | "over"
   | "overM"
   | "overC"
-  | "hidden"
-  | "hiddenM"
-  | "hiddenC"
+  | "hide"
+  | "hideM"
+  | "hideC"
 >;
 export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties => {
   const isRow = axis.row || axis.rowReverse;
@@ -108,12 +108,12 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
     [`min${cross.size}`]: parseSize(axis.minC),
     [`max${cross.size}`]: parseSize(axis.maxC),
     [`overflow${main.dir}`]: parseBoolable(
-      axis.overM ?? (axis.hiddenM ? "hidden" : undefined) ?? axis.over ?? (axis.hidden ? "hidden" : undefined),
+      axis.overM ?? (axis.hideM ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
       "auto",
       "hidden",
     ),
     [`overflow${cross.dir}`]: parseBoolable(
-      axis.overC ?? (axis.hiddenC ? "hidden" : undefined) ?? axis.over ?? (axis.hidden ? "hidden" : undefined),
+      axis.overC ?? (axis.hideC ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
       "auto",
       "hidden",
     ),
