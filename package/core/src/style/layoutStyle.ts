@@ -120,9 +120,9 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
 
     /* flex */
-    flexGrow: isBoolean(layout?.grow) ? (layout.grow ? 1 : 0) : layout?.grow,
-    flexShrink: isBoolean(layout?.shrink) ? (layout.shrink ? 1 : 0) : layout?.shrink,
-    flexBasis: parseSize(layout?.basis),
+    flexGrow: isBoolean(layout?.grow) ? (layout.grow ? 1 : 0) : (layout?.grow ?? 0),
+    flexShrink: isBoolean(layout?.shrink) ? (layout.shrink ? 1 : 0) : (layout?.shrink ?? 0),
+    flexBasis: parseSize(layout?.basis) ?? "auto",
     flexWrap: layout?.wrap ? "wrap" : layout?.wrapReverse ? "wrap-reverse" : layout?.nowrap ? "nowrap" : undefined,
 
     /* axis dependent values */
