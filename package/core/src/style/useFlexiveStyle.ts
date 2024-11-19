@@ -45,6 +45,9 @@ export const useFlexiveStyle = ({
   over,
   overM,
   overC,
+  hide,
+  hideM,
+  hideC,
 
   // utility style
   static: _static,
@@ -102,6 +105,9 @@ export const useFlexiveStyle = ({
       over,
       overM,
       overC,
+      hide,
+      hideM,
+      hideC,
     });
 
     const utilityStyle = parseUtilityStyle({
@@ -158,6 +164,9 @@ export const useFlexiveStyle = ({
     over,
     overM,
     overC,
+    hide,
+    hideM,
+    hideC,
     _static,
     fixed,
     absolute,

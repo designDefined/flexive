@@ -46,6 +46,9 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
         over,
         overM,
         overC,
+        hide,
+        hideM,
+        hideC,
         style: styleOverride,
         ...props
       },
@@ -92,6 +95,9 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
         over,
         overM,
         overC,
+        hide,
+        hideM,
+        hideC,
         style: styleOverride,
       });
       // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
