@@ -6,6 +6,7 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
   forwardRef<HTMLElementTagNameMap[T], JSX.IntrinsicElements[T] & FlexiveProps>(
     (
       {
+        // layout style
         inline,
         inlineFlex,
         block,
@@ -50,7 +51,22 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
         hide,
         hideM,
         hideC,
-        style: styleOverride,
+
+        // utility style
+        static: _static,
+        fixed,
+        absolute,
+        sticky,
+        top,
+        right,
+        bottom,
+        left,
+        rad,
+
+        // native style
+        style: nativeStyle,
+
+        // rest props
         ...props
       },
       ref,
@@ -100,7 +116,16 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
         hide,
         hideM,
         hideC,
-        style: styleOverride,
+        static: _static,
+        fixed,
+        absolute,
+        sticky,
+        top,
+        right,
+        bottom,
+        left,
+        rad,
+        style: nativeStyle,
       });
       // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
       return <Tag style={style} ref={ref} {...props} />;
