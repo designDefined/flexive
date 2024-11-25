@@ -28,10 +28,10 @@ export type LayoutStyle = {
   wrap?: boolean;
   wrapReverse?: boolean;
   nowrap?: boolean;
-  alignM?: JustifyValue;
-  alignC?: AlignValue;
-  alignSelfM?: JustifyValue;
-  alignSelfC?: AlignValue;
+  alignM?: JustifyValue | boolean;
+  alignC?: AlignValue | boolean;
+  alignSelfM?: JustifyValue | boolean;
+  alignSelfC?: AlignValue | boolean;
 
   /* sizing */
   sizeM?: SizeValue;
@@ -98,10 +98,10 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 
   return {
     flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
-    justifyContent: axis.alignM,
-    justifySelf: axis.alignSelfM,
-    alignItems: axis.alignC,
-    alignSelf: axis.alignSelfC,
+    justifyContent: parseBoolable(axis.alignM, "center", undefined),
+    justifySelf: parseBoolable(axis.alignSelfM, "center", undefined),
+    alignItems: parseBoolable(axis.alignC, "center", undefined),
+    alignSelf: parseBoolable(axis.alignSelfC, "center", undefined),
     [main.size.toLowerCase()]: parseSize(axis.sizeM),
     [`min${main.size}`]: parseSize(axis.minM),
     [`max${main.size}`]: parseSize(axis.maxM),

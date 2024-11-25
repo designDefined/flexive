@@ -225,15 +225,15 @@ export const MyButton = forwardRef<NativeElementOf<"button">, MyButtonProps>((pr
 
 #### alignM, alignSelfM
 
-- 값: `"start" | "end" | "center" | "between" | "around" | "evenly"`
+- 값: `"start" | "end" | "center" | "between" | "around" | "evenly" | boolean`
 - 기본값: -
-- 설명: 주 축 방향으로의 정렬로, 각각 `justify-content`와 `justify-self`에 대응합니다.
+- 설명: 주 축 방향으로의 정렬로, 각각 `justify-content`와 `justify-self`에 대응합니다. `true`는 `center`로 변환됩니다.
 
 #### alignC, alignSelfC
 
-- 값: `"start" | "end" | "center" | "stretch" | "baseline"`
+- 값: `"start" | "end" | "center" | "stretch" | "baseline" | boolean`
 - 기본값: -
-- 설명: 교차 축 방향으로의 정렬로, 각각 `align-items`와 `align-self`에 대응합니다.
+- 설명: 교차 축 방향으로의 정렬로, 각각 `align-items`와 `align-self`에 대응합니다. `true`는 `center`로 변환됩니다.
 
 #### wrap, wrapReverse, nowrap
 
