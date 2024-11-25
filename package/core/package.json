@@ -1,6 +1,6 @@
 {
   "name": "@flexive/core",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "main": "index.ts",
   "type": "module",
   "scripts": {

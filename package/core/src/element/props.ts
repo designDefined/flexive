@@ -9,5 +9,5 @@ export type DeprecatedTagNames = "big" | "center" | "keygen" | "menuitem" | "noi
 export type FlexiveTagNames = Exclude<keyof JSX.IntrinsicElements & keyof HTMLElementTagNameMap, DeprecatedTagNames>;
 
 // Props of elements
-export type PropsWithRef<T extends FlexiveTagNames> = JSX.IntrinsicElements[T] & FlexiveProps;
-export type PropsWithoutRef<T extends FlexiveTagNames> = Omit<PropsWithRef<T>, "ref">;
+export type PropsOf<T extends FlexiveTagNames> = Omit<JSX.IntrinsicElements[T] & FlexiveProps, "ref">;
+export type NativeElementOf<T extends FlexiveTagNames> = HTMLElementTagNameMap[T];
