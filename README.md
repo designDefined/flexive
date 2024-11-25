@@ -312,3 +312,7 @@ const cx = bindCSS();
 // 이렇게 사용합니다
 <Div className={cx("ComponentName", null, undefined, { isOpen: status === "open", always: true })} />;
 ```
+
+### filterProps
+
+객체에서 `flexiveProps`에 해당하는 부분만을 묶어 새로운 객체로 묶어냅니다. 이 객체는 `flexive`, 남은 객체는 `rest`라는 이름으로 반환됩니다.
