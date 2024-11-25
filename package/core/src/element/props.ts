@@ -10,3 +10,4 @@ export type FlexiveTagNames = Exclude<keyof JSX.IntrinsicElements & keyof HTMLEl
 
 // Props of elements
 export type PropsOf<T extends FlexiveTagNames> = Omit<JSX.IntrinsicElements[T] & FlexiveProps, "ref">;
+export type NativeElementOf<T extends FlexiveTagNames> = HTMLElementTagNameMap[T];
