@@ -31,7 +31,7 @@ export type LayoutStyle = {
   nowrap?: boolean;
   alignM?: JustifyValue | boolean;
   alignC?: AlignValue | boolean;
-  alignSelfM?: JustifyValue | boolean;
+  alignSelfM?: JustifyValue | boolean; // TODO: Deprecate value. justify-content doesn't work in flexbox layout
   alignSelfC?: AlignValue | boolean;
 
   /* sizing */
