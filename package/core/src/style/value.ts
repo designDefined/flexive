@@ -38,3 +38,22 @@ export const parseDirectionalSizes = (
   }
   return parseSize(rt);
 };
+
+export const parseAlign = (value?: AlignValue | JustifyValue) => {
+  switch (value) {
+    case "start":
+      return "flex-start";
+    case "end":
+      return "flex-end";
+    case "center":
+      return "center";
+    case "between":
+      return "space-between";
+    case "around":
+      return "space-around";
+    case "evenly":
+      return "space-evenly";
+    default:
+      return value;
+  }
+};

@@ -14,6 +14,11 @@ export const HomePage = () => {
         Test
       </Div>
       <Div hide hideC overC></Div>
+      <Div alignC="center" alignM="evenly" sizeM={800}>
+        <Div>1</Div>
+        <Div>2</Div>
+        <Div>3</Div>
+      </Div>
     </FullScreen>
   );
 };
