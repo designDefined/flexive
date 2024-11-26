@@ -3,6 +3,7 @@ import {
   AlignValue,
   JustifyValue,
   OverflowValue,
+  parseAlign,
   parseBoolable,
   parseDirectionalSizes,
   parseSize,
@@ -98,10 +99,10 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 
   return {
     flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
-    justifyContent: parseBoolable(axis.alignM, "center", undefined),
-    justifySelf: parseBoolable(axis.alignSelfM, "center", undefined),
-    alignItems: parseBoolable(axis.alignC, "center", undefined),
-    alignSelf: parseBoolable(axis.alignSelfC, "center", undefined),
+    justifyContent: parseAlign(parseBoolable(axis.alignM, "center", undefined)),
+    justifySelf: parseAlign(parseBoolable(axis.alignSelfM, "center", undefined)),
+    alignItems: parseAlign(parseBoolable(axis.alignC, "center", undefined)),
+    alignSelf: parseAlign(parseBoolable(axis.alignSelfC, "center", undefined)),
     [main.size.toLowerCase()]: parseSize(axis.sizeM),
     [`min${main.size}`]: parseSize(axis.minM),
     [`max${main.size}`]: parseSize(axis.maxM),
