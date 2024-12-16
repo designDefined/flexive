@@ -10,6 +10,7 @@
   "scripts": {
     "demo": "yarn workspace demo",
     "core": "yarn workspace @flexive/core",
+    "operator": "yarn workspace @flexive/operator",
     "demo-old": "yarn workspace demo-old",
     "core-old": "yarn workspace @flexive/core-old"
   },
