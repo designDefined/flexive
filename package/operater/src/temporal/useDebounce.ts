@@ -1,6 +1,7 @@
 import { useReducer } from "react";
 import { Timeout } from "./common";
 import { useEffectOnChange } from "../effect";
+import { useDeep } from "../compare";
 
 type DebounceOption = {
   ms?: number;
@@ -13,7 +14,8 @@ type DebounceState<Value> = {
 
 type DebounceReducer<Value> = (state: DebounceState<Value>, action: [0 | 1, Value]) => DebounceState<Value>;
 
-export const useDebounce = <T>(input: T, { ms }: DebounceOption) => {
+export const useDebounce = <T>(_input: T, { ms }: DebounceOption) => {
+  const input = useDeep(_input);
   const [{ value, timer }, dispatch] = useReducer<DebounceReducer<T>>(
     (prev, [code, value]) => {
       if (prev.timer) clearTimeout(prev.timer);
