@@ -7,7 +7,7 @@ const cx = bindCSS(styles);
 
 export const DebounceSection = () => {
   const [text, setText] = useState("");
-  const { value, flush, isDebouncing } = useDebounce(text, { ms: 1000 });
+  const { value, flush, isDebouncing } = useDebounce({ text }, { ms: 1000 });
 
   return (
     <Section className={cx("DebounceSection")} g={16}>
@@ -18,7 +18,7 @@ export const DebounceSection = () => {
       </Div>
       <Div className={cx({ isDebouncing })} row g={8}>
         <Span>Debounced:</Span>
-        <Span>{value}</Span>
+        <Span>{value.text}</Span>
       </Div>
       <Button onClick={flush} row alignC alignSelfC="start">
         Flush
