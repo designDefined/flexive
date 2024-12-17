@@ -6,6 +6,7 @@ import { deepEqual, useDeep } from "../compare";
 type DebounceOption = {
   ms?: number;
   leading?: boolean;
+  revert?: boolean; // TODO: Better naming
 };
 
 type DebounceState<Value> = {
@@ -20,7 +21,7 @@ type DebounceAction<Value> =
 
 type DebounceReducer<Value> = (state: DebounceState<Value>, action: DebounceAction<Value>) => DebounceState<Value>;
 
-export const useDebounce = <T>(_input: T, { ms, leading }: DebounceOption) => {
+export const useDebounce = <T>(_input: T, { ms, leading, revert }: DebounceOption) => {
   const input = useDeep(_input);
   const [{ value, timer }, dispatch] = useReducer<DebounceReducer<T>>(
     (prev, [code, value]) => {
@@ -36,7 +37,7 @@ export const useDebounce = <T>(_input: T, { ms, leading }: DebounceOption) => {
   );
 
   useEffectOnChange(() => {
-    if (deepEqual(input, value)) dispatch([2]);
+    if (revert && deepEqual(input, value)) dispatch([2]);
     else dispatch([0, input]);
   }, [input]);
 
