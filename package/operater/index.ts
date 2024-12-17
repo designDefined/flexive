@@ -1,1 +1,2 @@
-export const operator = () => console.log("flexive operator");
+export * from "./src/effect";
+export * from "./src/temporal";
