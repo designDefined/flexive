@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { Timeout } from "./common";
-import { useChangeEffect } from "../effect";
+import { useEffectOnChange } from "../effect";
 
 type DebounceOption = {
   ms?: number;
@@ -23,7 +23,7 @@ export const useDebounce = <T>(input: T, { ms }: DebounceOption) => {
     { value: input },
   );
 
-  useChangeEffect(() => {
+  useEffectOnChange(() => {
     dispatch([0, input]);
   }, [input]);
 
