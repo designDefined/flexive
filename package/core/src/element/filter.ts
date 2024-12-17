@@ -1,3 +1,4 @@
+import { filterUndefinedKeys } from "../utility/filter";
 import { FlexiveProps } from "./props";
 
 export const filterProps = <T extends FlexiveProps>(
@@ -68,7 +69,7 @@ export const filterProps = <T extends FlexiveProps>(
   } = props;
 
   return {
-    flexive: {
+    flexive: filterUndefinedKeys({
       inline,
       inlineFlex,
       block,
@@ -127,7 +128,7 @@ export const filterProps = <T extends FlexiveProps>(
 
       // native style
       style: nativeStyle,
-    },
+    }),
     rest,
   };
 };
