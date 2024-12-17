@@ -1,5 +1,5 @@
-import { Article, PropsWithoutRef } from "@flexive/core";
+import { Article, PropsOf } from "@flexive/core";
 
-type FullScreenProps = PropsWithoutRef<"article">;
+type FullScreenProps = PropsOf<"article">;
 
 export const FullScreen = (props: FullScreenProps) => <Article p={4} pr={2} {...props} />;

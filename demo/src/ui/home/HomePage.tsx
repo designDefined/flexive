@@ -1,23 +1,17 @@
-import styles from "./HomePage.module.css";
 import { FullScreen } from "../../component/FullScreen/FullScreen";
-import { bindCSS, Div, H1 } from "@flexive/core";
+import styles from "./HomePage.module.css";
+import { bindCSS, Div } from "@flexive/core";
 
 const cx = bindCSS(styles);
 
 export const HomePage = () => {
   return (
-    <FullScreen className={cx("HomePage")} py={1} pb={3} style={{ background: "red" }} rad={20}>
-      <H1 className={cx("title")} absolute right={40} top={200}>
-        Flexive!
-      </H1>
-      <Div px={2} py={4} alignSelfC="start" over overM="scroll" hideC>
-        Test
-      </Div>
-      <Div hide hideC overC></Div>
-      <Div alignC="center" alignM="evenly" sizeM={800}>
-        <Div>1</Div>
-        <Div>2</Div>
-        <Div>3</Div>
+    <FullScreen className={cx("HomePage")}>
+      <Div row sizeC={300} style={{ background: "antiquewhite" }}>
+        <Div grow shrink basis={0} style={{ background: "red" }}></Div>
+        <Div grow shrink style={{ background: "blue" }} row alignC>
+          <Div style={{ background: "green" }} row></Div>
+        </Div>
       </Div>
     </FullScreen>
   );
