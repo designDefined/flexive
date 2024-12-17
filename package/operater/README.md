@@ -2,6 +2,9 @@
 
 ## API
 
+- compare
+  - deepEqual
+  - useDeep
 - effect
   - useEffectOnChange
 - temporal
