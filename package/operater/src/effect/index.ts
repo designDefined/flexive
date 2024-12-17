@@ -1,1 +1,1 @@
-export * from "./useChangeEffect";
+export * from "./useEffectOnChange";
