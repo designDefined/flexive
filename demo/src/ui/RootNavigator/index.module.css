@@ -1,0 +1,8 @@
+.RootNavigator {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+.RootNavigator .item {
+  padding: 10px 16px;
+}
+.RootNavigator .item.active {
+}
