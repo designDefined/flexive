@@ -1,6 +1,6 @@
 {
   "name": "@flexive/operator",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.ts",
   "type": "module",
   "scripts": {
