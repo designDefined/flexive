@@ -28,7 +28,7 @@ export const useDelay = () => {
 
   const delay = useCallback((callback: () => void, ms: number) => dispatch([0, callback, ms]), []);
   const flush = useCallback(() => dispatch([1]), []);
-  const cancel = useCallback(() => dispatch([2]), []);
+  const abort = useCallback(() => dispatch([2]), []);
 
-  return { isDelaying: !!timer, delay, flush, cancel };
+  return { isDelaying: !!timer, delay, flush, abort };
 };
