@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import { Timeout } from "./common";
 import { useEffectOnChange } from "../effect";
 import { deepEqual, useDeep } from "../compare";
@@ -36,6 +36,9 @@ export const useDebounce = <T>(_input: T, { ms, leading, preventRevert }: Deboun
     { value: input },
   );
 
+  const flush = useCallback(() => dispatch([1, input]), [input]);
+  const abort = useCallback(() => dispatch([2]), []);
+
   useEffectOnChange(() => {
     if (!preventRevert && deepEqual(input, value)) dispatch([2]);
     else dispatch([0, input]);
@@ -44,7 +47,7 @@ export const useDebounce = <T>(_input: T, { ms, leading, preventRevert }: Deboun
   return {
     value,
     isDebouncing: !!timer,
-    flush: () => dispatch([1, input]),
-    abort: () => dispatch([2]),
+    flush,
+    abort,
   };
 };
