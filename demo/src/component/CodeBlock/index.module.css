@@ -1,0 +1,9 @@
+.CodeBlock {
+  background-color: rgba(30, 30, 30);
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.CodeBlock div:hover {
+  background-color: rgba(40, 40, 40);
+}

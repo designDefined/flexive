@@ -1,4 +1,4 @@
-.typo-heading-sans {
+.heading-sans {
   font-family: "Satoshi", sans-serif;
 }
 
@@ -20,15 +20,15 @@ h2 {
   line-height: 180%;
 }
 h3 {
-  font-size: 3rem;
+  font-size: 2.5rem;
   line-height: 160%;
 }
 h4 {
-  font-size: 2.5rem;
+  font-size: 2rem;
   line-height: 140%;
 }
 h5 {
-  font-size: 2rem;
+  font-size: 1.75rem;
   line-height: 120%;
 }
 h6 {

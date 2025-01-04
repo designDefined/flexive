@@ -5,7 +5,7 @@ import { useState } from "react";
 
 const cx = bindCSS(styles);
 
-export const DebounceSection = () => {
+export const UseDebounceSection = () => {
   const [text, setText] = useState("");
   const { value, flush, isDebouncing } = useDebounce({ text }, { ms: 1000 });
 
