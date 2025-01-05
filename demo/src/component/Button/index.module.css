@@ -9,17 +9,17 @@
 
 .Button.outlined {
   border-color: oklab(var(--primary));
-  background-color: oklab(var(--secondary));
+  background-color: oklab(var(--secondary) / 0.4);
   color: oklab(var(--primary));
 }
 .Button.outlined:hover {
   border-color: oklab(var(--primary));
-  background-color: oklab(var(--primary) / 0.1);
+  background-color: oklab(var(--secondary) / 0.75);
   color: oklab(var(--primary));
 }
 .Button.outlined:active {
   border-color: oklab(var(--primary));
-  background-color: oklab(var(--primary) / 0.2);
+  background-color: oklab(var(--secondary));
   color: oklab(var(--primary));
 }
 
