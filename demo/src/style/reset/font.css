@@ -1,0 +1,69 @@
+html {
+  font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"; /* Improve consistency of default fonts in all browsers. */
+  line-height: 1.15; /* Correct the line height in all browsers. */
+  -webkit-text-size-adjust: 100%; /* Prevent adjustments of font size after orientation changes in iOS. */
+  tab-size: 4; /* Use a more readable tab size (opinionated). */
+  -webkit-font-smoothing: antialiased; /* Improve text rendering */
+}
+
+b,
+strong {
+  /* Add the correct font weight in Chrome and Safari. */
+  font-weight: bolder;
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace; /* Improve consistency of default fonts in all browsers. (https://github.com/sindresorhus/modern-normalize/issues/3) */
+  font-size: 1em; /* Correct the odd 'em' font sizing in all browsers. */
+}
+
+small {
+  font-size: 80%; /* Add the correct font size in all browsers. */
+}
+
+/*
+ *  Prevent 'sub' and 'sup' elements from affecting the line height in all browsers. 
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+/* Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}

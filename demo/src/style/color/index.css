@@ -1,0 +1,20 @@
+:root {
+  --primary: 100% 0 0;
+  --secondary: 10% 0 0;
+  color: oklab(var(--secondary));
+}
+
+.white {
+  --primary: 100% 0 0;
+  --secondary: 10% 0 0;
+}
+
+.black {
+  --primary: 10% 0 0;
+  --secondary: 100% 0 0;
+}
+
+.red {
+  --primary: 30% 0.4 0.2;
+  --secondary: 95% 0 0.08;
+}

@@ -1,1 +1,14 @@
-@import "./box-sizing.css";
+section {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+main {
+  margin-top: 48px;
+  margin-bottom: 48px;
+}
+
+p {
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}

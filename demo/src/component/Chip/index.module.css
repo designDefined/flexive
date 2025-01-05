@@ -1,0 +1,7 @@
+.Chip {
+  border: 2px solid oklab(var(--primary) / 0.1);
+  background-color: oklab(var(--primary));
+  color: oklab(var(--secondary));
+  font-size: 16px;
+  font-weight: 500;
+}

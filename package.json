@@ -12,10 +12,13 @@
     "core": "yarn workspace @flexive/core",
     "operator": "yarn workspace @flexive/operator",
     "demo-old": "yarn workspace demo-old",
-    "core-old": "yarn workspace @flexive/core-old"
+    "core-old": "yarn workspace @flexive/core-old",
+    "prepare": "husky",
+    "test": "yarn core build && yarn operator build && yarn demo build"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
+    "husky": "^9.1.7",
     "prettier": "^3.2.5"
   }
 }

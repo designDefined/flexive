@@ -1,0 +1,3 @@
+.Example {
+  border: 3px solid oklab(var(--secondary) / 0.75);
+}

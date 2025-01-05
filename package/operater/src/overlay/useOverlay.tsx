@@ -13,7 +13,7 @@ type OverlayAction<Context> =
 
 type OverlayReducer<Context> = (state: OverlayState<Context>, action: OverlayAction<Context>) => OverlayState<Context>;
 
-export const useOverlay = <Context = never,>(renderer: OverlayRenderer, { at }: OverlayOption = {}) => {
+export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at }: OverlayOption = {}) => {
   const [{ isOpen, context }, dispatch] = useReducer<OverlayReducer<Context>>(
     (prev, [code, context]) => {
       if (code === 0) return { isOpen: true, context };
@@ -23,7 +23,10 @@ export const useOverlay = <Context = never,>(renderer: OverlayRenderer, { at }: 
     { isOpen: false },
   );
 
-  const open = useCallback((context: Context) => dispatch([0, context]), []);
+  const open = useCallback(
+    (...context: Context extends undefined ? Context[] : [Context]) => dispatch([0, context[0]]),
+    [],
+  );
   const close = useCallback(() => dispatch([1]), []);
   const overlay = useCallback(
     (input: ReactNode | ((ctx: Context) => ReactNode)) => {

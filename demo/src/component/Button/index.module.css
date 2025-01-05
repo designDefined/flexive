@@ -1,0 +1,36 @@
+.Button {
+  border: 2px solid transparent;
+  font-size: 16px;
+  font-weight: 500;
+  transition: 0.1s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.Button.outlined {
+  border-color: oklab(var(--primary));
+  background-color: oklab(var(--secondary) / 0.4);
+  color: oklab(var(--primary));
+}
+.Button.outlined:hover {
+  border-color: oklab(var(--primary));
+  background-color: oklab(var(--secondary) / 0.75);
+  color: oklab(var(--primary));
+}
+.Button.outlined:active {
+  border-color: oklab(var(--primary));
+  background-color: oklab(var(--secondary));
+  color: oklab(var(--primary));
+}
+
+.Button.filled {
+  border-color: oklab(var(--primary));
+  background-color: oklab(var(--primary));
+  color: oklab(var(--secondary));
+}
+.Button.filled:hover {
+  opacity: 0.8;
+}
+.Button.filled:active {
+  opacity: 0.6;
+}
