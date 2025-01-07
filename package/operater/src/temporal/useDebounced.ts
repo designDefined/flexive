@@ -3,27 +3,27 @@ import { Timeout } from "./common";
 import { useEffectOnChange } from "../effect";
 import { deepEqual, useDeep } from "../compare";
 
-type DebounceOption = {
+type DebouncedOption = {
   ms?: number;
   leading?: boolean;
   preventRevert?: boolean; // TODO: Better naming
 };
 
-type DebounceState<Value> = {
+type DebouncedState<Value> = {
   value: Value;
   timer?: Timeout;
 };
 
-type DebounceAction<Value> =
+type DebouncedAction<Value> =
   | [0, Value] // set timer
   | [1, Value] // set value
   | [2]; // reset
 
-type DebounceReducer<Value> = (state: DebounceState<Value>, action: DebounceAction<Value>) => DebounceState<Value>;
+type DebouncedReducer<Value> = (state: DebouncedState<Value>, action: DebouncedAction<Value>) => DebouncedState<Value>;
 
-export const useDebounce = <T>(_input: T, { ms, leading, preventRevert }: DebounceOption) => {
+export const useDebounced = <T>(_input: T, { ms, leading, preventRevert }: DebouncedOption) => {
   const input = useDeep(_input);
-  const [{ value, timer }, dispatch] = useReducer<DebounceReducer<T>>(
+  const [{ value, timer }, dispatch] = useReducer<DebouncedReducer<T>>(
     (prev, [code, value]) => {
       if (prev.timer) clearTimeout(prev.timer);
       if (code === 2) return { value: prev.value };

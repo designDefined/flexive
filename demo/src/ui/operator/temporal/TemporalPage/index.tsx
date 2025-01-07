@@ -1,5 +1,5 @@
 import { Article, H1, Main } from "@flexive/core";
-import { UseDebounceSection } from "../UseDebounceSection";
+import { UseDebouncedSection } from "../UseDebouncedSection";
 import { UseTemporaryStateSection } from "../UseTemporaryStateSection";
 
 export const TemporalPage = () => {
@@ -7,7 +7,7 @@ export const TemporalPage = () => {
     <Article>
       <H1>Temporal Operator</H1>
       <Main>
-        <UseDebounceSection />
+        <UseDebouncedSection />
         <UseTemporaryStateSection />
       </Main>
     </Article>
