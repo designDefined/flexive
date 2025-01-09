@@ -1,5 +1,6 @@
 import { ReactNode, ReactPortal, useCallback, useReducer } from "react";
 import { OverlayContextProvider } from "./OverlayContext";
+import { useDelay } from "../temporal";
 
 export type OverlayRenderer = (children: ReactNode, container: Element | DocumentFragment) => ReactPortal;
 
@@ -14,6 +15,7 @@ type OverlayAction<Context> =
 type OverlayReducer<Context> = (state: OverlayState<Context>, action: OverlayAction<Context>) => OverlayState<Context>;
 
 export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at }: OverlayOption = {}) => {
+  const { delay, isDelaying, duration } = useDelay();
   const [{ isOpen, context }, dispatch] = useReducer<OverlayReducer<Context>>(
     (prev, [code, context]) => {
       if (code === 0) return { isOpen: true, context };
@@ -28,14 +30,20 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
     [],
   );
   const close = useCallback(() => dispatch([1]), []);
+  const closeAfter = useCallback((ms: number) => delay(() => dispatch([1]), ms), [delay]);
   const overlay = useCallback(
     (input: ReactNode | ((ctx: Context) => ReactNode)) => {
       if (!isOpen) return undefined;
       const target = typeof input === "function" ? input(context) : input;
-      return <OverlayContextProvider close={close}>{renderer(target, at ?? document.body)}</OverlayContextProvider>;
+      return renderer(
+        <OverlayContextProvider close={close} closeAfter={closeAfter}>
+          {target}
+        </OverlayContextProvider>,
+        at ?? document.body,
+      );
     },
-    [isOpen, context, close, at, renderer],
+    [isOpen, context, close, closeAfter, at, renderer],
   );
 
-  return { overlay, open, close, isOpen, context };
+  return { overlay, open, close, isOpen, context, isClosing: isDelaying, closeDelay: duration };
 };
