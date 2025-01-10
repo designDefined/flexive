@@ -10,7 +10,8 @@ type OverlayState<Context> = { isOpen: false; context?: undefined } | { isOpen: 
 
 type OverlayAction<Context> =
   | [0, Context] // open
-  | [1]; // close
+  | [1] // close
+  | [2, Context]; // update context
 
 type OverlayReducer<Context> = (state: OverlayState<Context>, action: OverlayAction<Context>) => OverlayState<Context>;
 
@@ -18,9 +19,9 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
   const { delay, isDelaying, duration } = useDelay();
   const [{ isOpen, context }, dispatch] = useReducer<OverlayReducer<Context>>(
     (prev, [code, context]) => {
-      if (code === 0) return { isOpen: true, context };
+      if (code === 2) return prev.isOpen ? { ...prev, context } : prev;
       if (code === 1) return { isOpen: false };
-      return prev;
+      return { isOpen: true, context };
     },
     { isOpen: false },
   );
@@ -31,6 +32,7 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
   );
   const close = useCallback(() => dispatch([1]), []);
   const closeAfter = useCallback((ms: number) => delay(() => dispatch([1]), ms), [delay]);
+  const update = useCallback((context: Context) => dispatch([2, context]), []);
   const overlay = useCallback(
     (input: ReactNode | ((ctx: Context) => ReactNode)) => {
       if (!isOpen) return undefined;
@@ -45,5 +47,5 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
     [isOpen, context, close, closeAfter, at, renderer],
   );
 
-  return { overlay, open, close, isOpen, context, isClosing: isDelaying, closeDelay: duration };
+  return { overlay, open, close, update, isOpen, context, isClosing: isDelaying, closeDelay: duration };
 };
