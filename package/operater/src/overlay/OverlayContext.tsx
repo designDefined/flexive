@@ -1,23 +1,16 @@
 import { createContext, PropsWithChildren, useContext } from "react";
 
-type OverlayContextValue = { close: (count?: number) => void; closeList: (() => void)[] };
+type CloseFunctions = { close: () => void; closeAfter: (ms: number) => void };
+type OverlayContextValue = { stack: CloseFunctions[]; close: () => void; closeAfter: (ms: number) => void };
 
-export const OverlayContext = createContext<OverlayContextValue>({ close: () => {}, closeList: [] });
+export const OverlayContext = createContext<OverlayContextValue>({ stack: [], close: () => {}, closeAfter: () => {} });
 
-type OverlayContextProviderProps = PropsWithChildren & { close: () => void };
+type OverlayContextProviderProps = PropsWithChildren & { close: () => void; closeAfter: (ms: number) => void };
 
-export const OverlayContextProvider = ({ close: close, children }: OverlayContextProviderProps) => {
-  const { closeList } = useContext(OverlayContext);
+export const OverlayContextProvider = ({ close, closeAfter, children }: OverlayContextProviderProps) => {
+  const { stack } = useContext(OverlayContext);
   return (
-    <OverlayContext.Provider
-      value={{
-        closeList: [...closeList, close],
-        close: count => {
-          close();
-          if (count) closeList.slice(-count).forEach(prevClose => prevClose());
-        },
-      }}
-    >
+    <OverlayContext.Provider value={{ stack: [...stack, { close, closeAfter }], close, closeAfter }}>
       {children}
     </OverlayContext.Provider>
   );

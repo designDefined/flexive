@@ -1,17 +1,18 @@
-import { Article, bindCSS } from "@flexive/core";
+import { Article, bindCSS, PropsOf } from "@flexive/core";
 import styles from "./index.module.css";
 import { useOverlayControl } from "@flexive/operator";
-import { PropsWithChildren } from "react";
 
 const cx = bindCSS(styles);
 
-export const CenterOverlay = ({ children }: PropsWithChildren) => {
-  const { close } = useOverlayControl();
+type CenterOverlayProps = PropsOf<"article"> & { delay?: number };
+
+export const CenterOverlay = ({ delay, className, children, ...props }: CenterOverlayProps) => {
+  const { close, closeAfter } = useOverlayControl();
 
   return (
     <Article
-      className={cx("CenterOverlay")}
-      onClick={() => close()}
+      className={cx("CenterOverlay", className)}
+      onClick={() => (delay ? closeAfter(delay) : close())}
       fixed
       top={0}
       left={0}
@@ -19,6 +20,7 @@ export const CenterOverlay = ({ children }: PropsWithChildren) => {
       sizeC="100vw"
       alignC
       alignM
+      {...props}
     >
       {children}
     </Article>

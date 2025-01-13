@@ -1,27 +1,27 @@
 import { useCallback, useReducer } from "react";
 import { Timeout } from "./common";
 
-type DelayState = { timer?: Timeout; callback?: () => void };
+type DelayState =
+  | { timer: Timeout; callback: () => void; duration: number }
+  | { timer?: undefined; callback?: undefined; duration?: undefined };
 
 type DelayAction =
   | [0, () => void, number] // set timer
   | [1] // flush
-  | [2]; //  cancel
+  | [2]; // cancel
 
 type DelayReducer = (state: DelayState, action: DelayAction) => DelayState;
 
 export const useDelay = () => {
-  const [{ timer }, dispatch] = useReducer<DelayReducer>((prev, [code, callback, ms]) => {
+  const [{ timer, duration }, dispatch] = useReducer<DelayReducer>((prev, [code, callback, ms]) => {
+    if (prev.timer) clearTimeout(prev.timer);
     switch (code) {
       case 0:
-        if (prev.timer) clearTimeout(prev.timer);
-        return { timer: setTimeout(() => callback(), ms), callback };
+        return { timer: setTimeout(() => dispatch([1]), ms), callback, duration: ms };
       case 1:
-        if (prev.timer) clearTimeout(prev.timer);
         prev.callback?.();
         return {};
       case 2:
-        if (prev.timer) clearTimeout(prev.timer);
         return {};
     }
   }, {});
@@ -30,5 +30,5 @@ export const useDelay = () => {
   const flush = useCallback(() => dispatch([1]), []);
   const abort = useCallback(() => dispatch([2]), []);
 
-  return { isDelaying: !!timer, delay, flush, abort };
+  return { isDelaying: !!timer, duration, delay, flush, abort };
 };

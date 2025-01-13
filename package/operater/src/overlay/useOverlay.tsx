@@ -1,5 +1,6 @@
 import { ReactNode, ReactPortal, useCallback, useReducer } from "react";
 import { OverlayContextProvider } from "./OverlayContext";
+import { useDelay } from "../temporal";
 
 export type OverlayRenderer = (children: ReactNode, container: Element | DocumentFragment) => ReactPortal;
 
@@ -9,16 +10,18 @@ type OverlayState<Context> = { isOpen: false; context?: undefined } | { isOpen: 
 
 type OverlayAction<Context> =
   | [0, Context] // open
-  | [1]; // close
+  | [1] // close
+  | [2, Context]; // update context
 
 type OverlayReducer<Context> = (state: OverlayState<Context>, action: OverlayAction<Context>) => OverlayState<Context>;
 
 export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at }: OverlayOption = {}) => {
+  const { delay, isDelaying, duration } = useDelay();
   const [{ isOpen, context }, dispatch] = useReducer<OverlayReducer<Context>>(
     (prev, [code, context]) => {
-      if (code === 0) return { isOpen: true, context };
+      if (code === 2) return prev.isOpen ? { ...prev, context } : prev;
       if (code === 1) return { isOpen: false };
-      return prev;
+      return { isOpen: true, context };
     },
     { isOpen: false },
   );
@@ -28,14 +31,21 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
     [],
   );
   const close = useCallback(() => dispatch([1]), []);
+  const closeAfter = useCallback((ms: number) => delay(() => !isDelaying && dispatch([1]), ms), [delay, isDelaying]);
+  const update = useCallback((context: Context) => dispatch([2, context]), []);
   const overlay = useCallback(
     (input: ReactNode | ((ctx: Context) => ReactNode)) => {
       if (!isOpen) return undefined;
       const target = typeof input === "function" ? input(context) : input;
-      return <OverlayContextProvider close={close}>{renderer(target, at ?? document.body)}</OverlayContextProvider>;
+      return renderer(
+        <OverlayContextProvider close={close} closeAfter={closeAfter}>
+          {target}
+        </OverlayContextProvider>,
+        at ?? document.body,
+      );
     },
-    [isOpen, context, close, at, renderer],
+    [isOpen, context, close, closeAfter, at, renderer],
   );
 
-  return { overlay, open, close, isOpen, context };
+  return { overlay, open, close, update, isOpen, context, isClosing: isDelaying, closeDelay: duration };
 };
