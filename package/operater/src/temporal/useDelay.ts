@@ -8,7 +8,7 @@ type DelayState =
 type DelayAction =
   | [0, () => void, number] // set timer
   | [1] // flush
-  | [2]; //  cancel
+  | [2]; // cancel
 
 type DelayReducer = (state: DelayState, action: DelayAction) => DelayState;
 
@@ -17,7 +17,7 @@ export const useDelay = () => {
     if (prev.timer) clearTimeout(prev.timer);
     switch (code) {
       case 0:
-        return { timer: setTimeout(() => callback(), ms), callback, duration: ms };
+        return { timer: setTimeout(() => dispatch([1]), ms), callback, duration: ms };
       case 1:
         prev.callback?.();
         return {};

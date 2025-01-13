@@ -31,7 +31,7 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
     [],
   );
   const close = useCallback(() => dispatch([1]), []);
-  const closeAfter = useCallback((ms: number) => delay(() => dispatch([1]), ms), [delay]);
+  const closeAfter = useCallback((ms: number) => delay(() => !isDelaying && dispatch([1]), ms), [delay, isDelaying]);
   const update = useCallback((context: Context) => dispatch([2, context]), []);
   const overlay = useCallback(
     (input: ReactNode | ((ctx: Context) => ReactNode)) => {
