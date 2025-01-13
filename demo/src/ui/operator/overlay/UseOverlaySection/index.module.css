@@ -1,0 +1,13 @@
+.AnimatedOverlay.isClosing {
+  animation: ease 0.2s normal fade;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
