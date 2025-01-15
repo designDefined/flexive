@@ -60,6 +60,8 @@ export type LayoutStyle = {
   ml?: SizeValue;
 
   g?: SizeValue;
+  gM?: SizeValue;
+  gC?: SizeValue;
 
   /* overflow */
   over?: OverflowValue | boolean;
@@ -85,6 +87,9 @@ type AxisDependentLayoutStyle = Pick<
   | "minC"
   | "maxC"
   | "sizeC"
+  | "g"
+  | "gM"
+  | "gC"
   | "over"
   | "overM"
   | "overC"
@@ -114,6 +119,8 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
       "auto",
       "hidden",
     ),
+    columnGap: isRow ? parseSize(axis.gM ?? axis.g) : parseSize(axis.gC ?? axis.g),
+    rowGap: isRow ? parseSize(axis.gC ?? axis.g) : parseSize(axis.gM ?? axis.g),
     [`overflow${cross.dir}`]: parseBoolable(
       axis.overC ?? (axis.hideC ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
       "auto",
@@ -139,6 +146,5 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     /* spacing */
     padding: parseDirectionalSizes(layout?.p, layout?.px, layout?.py, layout?.pt, layout?.pr, layout?.pb, layout?.pl),
     margin: parseDirectionalSizes(layout?.m, layout?.mx, layout?.my, layout?.mt, layout?.mr, layout?.mb, layout?.ml),
-    gap: parseSize(layout?.g),
   };
 };
