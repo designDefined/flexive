@@ -38,13 +38,13 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
       if (!isOpen) return undefined;
       const target = typeof input === "function" ? input(context) : input;
       return renderer(
-        <OverlayContextProvider close={close} closeAfter={closeAfter}>
+        <OverlayContextProvider close={close} closeAfter={closeAfter} isClosing={isDelaying}>
           {target}
         </OverlayContextProvider>,
         at ?? document.body,
       );
     },
-    [isOpen, context, close, closeAfter, at, renderer],
+    [isOpen, context, close, closeAfter, isDelaying, at, renderer],
   );
 
   return { overlay, open, close, update, isOpen, context, isClosing: isDelaying, closeDelay: duration };
