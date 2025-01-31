@@ -52,7 +52,7 @@ const Center = () => {
 
   return (
     <>
-      <Button onClick={() => open()} design="filled">
+      <Button onClick={open} design="filled">
         Center Overlay
       </Button>
       {overlay(

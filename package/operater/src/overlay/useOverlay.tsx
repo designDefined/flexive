@@ -27,7 +27,7 @@ export const useOverlay = <Context = undefined,>(renderer: OverlayRenderer, { at
   );
 
   const open = useCallback(
-    (...context: Context extends undefined ? Context[] : [Context]) => dispatch([0, context[0]]),
+    (...context: Context extends undefined ? never[] : [Context]) => dispatch([0, context[0]]),
     [],
   );
   const close = useCallback(() => dispatch([1]), []);
