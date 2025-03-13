@@ -48,7 +48,10 @@ export const UseOverlaySection = () => {
 
 const Center = () => {
   const [text] = useState("hello, world!");
-  const { overlay, open } = useOverlay(createPortal);
+  const { overlay, open } = useOverlay(createPortal, {
+    onOpen: () => console.log("opened!"),
+    onClose: () => console.log("closed!"),
+  });
 
   return (
     <>
@@ -93,12 +96,16 @@ const Relative = () => {
 };
 
 const DragExample = () => {
-  const { overlay, open, close, isOpen, update } = useOverlay<{ x: number; y: number }>(createPortal);
+  const [result, setResult] = useState("");
+  const { overlay, open, close, isOpen, update } = useOverlay<{ x: number; y: number }>(createPortal, {
+    onClose: context => setResult(`last dropped at: (${context.x}, ${context.y})`),
+  });
   return (
-    <Example row>
+    <Example row alignC g={8}>
       <Chip theme="red" onPointerDown={e => open({ x: e.clientX, y: e.clientY })} style={{ opacity: isOpen ? 0 : 1 }}>
         Drag Me!
       </Chip>
+      {result}
       {overlay(({ x, y }) => (
         <EmptyOverlay onPointerMove={e => update({ x: e.clientX, y: e.clientY })} onPointerUp={() => close()}>
           <DraggedChip x={x} y={y} />
@@ -121,7 +128,7 @@ const Animated = () => {
   const { overlay, open, isClosing } = useOverlay(createPortal);
   return (
     <>
-      <Button onClick={() => open()} design="filled">
+      <Button onClick={open} design="filled">
         Animated Overlay
       </Button>
       {overlay(
