@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { FlexiveStyle } from "../style";
 
 // Core props
