@@ -12,6 +12,7 @@ import {
 
 export type LayoutStyle = {
   /* display */
+  flex?: boolean;
   inline?: boolean;
   inlineFlex?: boolean;
   block?: boolean;
@@ -35,33 +36,33 @@ export type LayoutStyle = {
   alignSelfC?: AlignValue | boolean;
 
   /* sizing */
-  sizeM?: SizeValue;
-  maxM?: SizeValue;
-  minM?: SizeValue;
-  sizeC?: SizeValue;
-  maxC?: SizeValue;
-  minC?: SizeValue;
+  sizeM?: SizeValue | true;
+  maxM?: SizeValue | true;
+  minM?: SizeValue | true;
+  sizeC?: SizeValue | true;
+  maxC?: SizeValue | true;
+  minC?: SizeValue | true;
 
   /* spacing */
-  p?: SizeValue;
-  px?: SizeValue;
-  py?: SizeValue;
-  pt?: SizeValue;
-  pr?: SizeValue;
-  pb?: SizeValue;
-  pl?: SizeValue;
+  p?: SizeValue | true;
+  px?: SizeValue | true;
+  py?: SizeValue | true;
+  pt?: SizeValue | true;
+  pr?: SizeValue | true;
+  pb?: SizeValue | true;
+  pl?: SizeValue | true;
 
-  m?: SizeValue;
-  mx?: SizeValue;
-  my?: SizeValue;
-  mt?: SizeValue;
-  mr?: SizeValue;
-  mb?: SizeValue;
-  ml?: SizeValue;
+  m?: SizeValue | true;
+  mx?: SizeValue | true;
+  my?: SizeValue | true;
+  mt?: SizeValue | true;
+  mr?: SizeValue | true;
+  mb?: SizeValue | true;
+  ml?: SizeValue | true;
 
-  g?: SizeValue;
-  gM?: SizeValue;
-  gC?: SizeValue;
+  g?: SizeValue | true;
+  gM?: SizeValue | true;
+  gC?: SizeValue | true;
 
   /* overflow */
   over?: OverflowValue | boolean;
@@ -99,28 +100,28 @@ type AxisDependentLayoutStyle = Pick<
 >;
 export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties => {
   const isRow = axis.row || axis.rowReverse;
-  const main = isRow ? { dir: "X", size: "Width" } : { dir: "Y", size: "Height" };
-  const cross = isRow ? { dir: "Y", size: "Height" } : { dir: "X", size: "Width" };
+  const main = isRow ? { dir: "X", size: "Width", grid: "row" } : { dir: "Y", size: "Height", grid: "column" };
+  const cross = isRow ? { dir: "Y", size: "Height", grid: "column" } : { dir: "X", size: "Width", grid: "row" };
 
   return {
     flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
-    justifyContent: parseAlign(parseBoolable(axis.alignM, "center", undefined)),
-    justifySelf: parseAlign(parseBoolable(axis.alignSelfM, "center", undefined)),
-    alignItems: parseAlign(parseBoolable(axis.alignC, "center", undefined)),
-    alignSelf: parseAlign(parseBoolable(axis.alignSelfC, "center", undefined)),
-    [main.size.toLowerCase()]: parseSize(axis.sizeM),
-    [`min${main.size}`]: parseSize(axis.minM),
-    [`max${main.size}`]: parseSize(axis.maxM),
-    [cross.size.toLowerCase()]: parseSize(axis.sizeC),
-    [`min${cross.size}`]: parseSize(axis.minC),
-    [`max${cross.size}`]: parseSize(axis.maxC),
+    justifyContent: parseAlign(parseBoolable(axis.alignM, "center")),
+    justifySelf: parseAlign(parseBoolable(axis.alignSelfM, "center")),
+    alignItems: parseAlign(parseBoolable(axis.alignC, "center")),
+    alignSelf: parseAlign(parseBoolable(axis.alignSelfC, "center")),
+    [main.size.toLowerCase()]: parseSize(parseBoolable(axis.sizeM, 0)),
+    [`min${main.size}`]: parseSize(parseBoolable(axis.minM, 0)),
+    [`max${main.size}`]: parseSize(parseBoolable(axis.maxM, 0)),
+    [cross.size.toLowerCase()]: parseSize(parseBoolable(axis.sizeC, 0)),
+    [`min${cross.size}`]: parseSize(parseBoolable(axis.minC, 0)),
+    [`max${cross.size}`]: parseSize(parseBoolable(axis.maxC, 0)),
+    [`${main.grid}Gap`]: parseSize(parseBoolable(axis.gM ?? axis.g, 0)),
+    [`${cross.grid}Gap`]: parseSize(parseBoolable(axis.gC ?? axis.g, 0)),
     [`overflow${main.dir}`]: parseBoolable(
       axis.overM ?? (axis.hideM ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
       "auto",
       "hidden",
     ),
-    columnGap: isRow ? parseSize(axis.gM ?? axis.g) : parseSize(axis.gC ?? axis.g),
-    rowGap: isRow ? parseSize(axis.gC ?? axis.g) : parseSize(axis.gM ?? axis.g),
     [`overflow${cross.dir}`]: parseBoolable(
       axis.overC ?? (axis.hideC ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
       "auto",
@@ -132,7 +133,15 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
   return {
     /* display */
-    display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
+    display: layout.flex
+      ? "flex"
+      : layout.inlineFlex
+        ? "inline-flex"
+        : layout.inline
+          ? "inline"
+          : layout.block
+            ? "block"
+            : "flex",
 
     /* flex */
     flexGrow: parseBoolable(layout.grow ?? layout.f, 1, 0) ?? 0,
@@ -144,7 +153,23 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     ...parseAxisStyle(layout),
 
     /* spacing */
-    padding: parseDirectionalSizes(layout?.p, layout?.px, layout?.py, layout?.pt, layout?.pr, layout?.pb, layout?.pl),
-    margin: parseDirectionalSizes(layout?.m, layout?.mx, layout?.my, layout?.mt, layout?.mr, layout?.mb, layout?.ml),
+    padding: parseDirectionalSizes(
+      parseBoolable(layout?.p, 0),
+      parseBoolable(layout?.px, 0),
+      parseBoolable(layout?.py, 0),
+      parseBoolable(layout?.pt, 0),
+      parseBoolable(layout?.pr, 0),
+      parseBoolable(layout?.pb, 0),
+      parseBoolable(layout?.pl, 0),
+    ),
+    margin: parseDirectionalSizes(
+      parseBoolable(layout?.m, 0),
+      parseBoolable(layout?.mx, 0),
+      parseBoolable(layout?.my, 0),
+      parseBoolable(layout?.mt, 0),
+      parseBoolable(layout?.mr, 0),
+      parseBoolable(layout?.mb, 0),
+      parseBoolable(layout?.ml, 0),
+    ),
   };
 };
