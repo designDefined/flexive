@@ -63,6 +63,7 @@ export const useFlexiveStyle = ({
   right,
   bottom,
   left,
+  z,
   rad,
 
   // native style
@@ -129,6 +130,7 @@ export const useFlexiveStyle = ({
       right,
       bottom,
       left,
+      z,
       rad,
     });
 
@@ -190,6 +192,7 @@ export const useFlexiveStyle = ({
     right,
     bottom,
     left,
+    z,
     rad,
     nativeStyle,
   ]);

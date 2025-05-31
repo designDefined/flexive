@@ -63,6 +63,7 @@ export const filterProps = <T extends FlexiveProps>(
     right,
     bottom,
     left,
+    z,
     rad,
 
     // native style
@@ -132,6 +133,7 @@ export const filterProps = <T extends FlexiveProps>(
       right,
       bottom,
       left,
+      z,
       rad,
 
       // native style

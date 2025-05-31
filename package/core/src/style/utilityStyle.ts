@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import { parseSize, SizeValue } from "./value";
+import { parseBoolable, parseSize, SizeValue } from "./value";
 
 export type UtilityStyle = {
   relative?: boolean;
@@ -11,6 +11,7 @@ export type UtilityStyle = {
   right?: SizeValue;
   bottom?: SizeValue;
   left?: SizeValue;
+  z?: number;
   rad?: SizeValue;
 };
 
@@ -31,6 +32,7 @@ export const parseUtilityStyle = (utility: UtilityStyle): CSSProperties => {
     right: parseSize(utility.right),
     bottom: parseSize(utility.bottom),
     left: parseSize(utility.left),
+    zIndex: parseBoolable(utility.z, 0, undefined),
     borderRadius: parseSize(utility.rad),
   };
 };
