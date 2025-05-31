@@ -5,6 +5,7 @@ import { parseUtilityStyle } from "./utilityStyle";
 
 export const useFlexiveStyle = ({
   // layout style
+  flex,
   inline,
   inlineFlex,
   block,
@@ -53,6 +54,7 @@ export const useFlexiveStyle = ({
   hideC,
 
   // utility style
+  relative,
   static: _static,
   fixed,
   absolute,
@@ -68,6 +70,7 @@ export const useFlexiveStyle = ({
 }: FlexiveStyle): CSSProperties => {
   const style = useMemo(() => {
     const layoutStyle = parseLayoutStyle({
+      flex,
       inline,
       inlineFlex,
       block,
@@ -117,6 +120,7 @@ export const useFlexiveStyle = ({
     });
 
     const utilityStyle = parseUtilityStyle({
+      relative,
       static: _static,
       fixed,
       absolute,
@@ -130,6 +134,7 @@ export const useFlexiveStyle = ({
 
     return { ...utilityStyle, ...layoutStyle, ...nativeStyle };
   }, [
+    flex,
     inline,
     inlineFlex,
     block,
@@ -176,6 +181,7 @@ export const useFlexiveStyle = ({
     hide,
     hideM,
     hideC,
+    relative,
     _static,
     fixed,
     absolute,

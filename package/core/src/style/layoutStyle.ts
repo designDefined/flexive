@@ -12,6 +12,7 @@ import {
 
 export type LayoutStyle = {
   /* display */
+  flex?: boolean;
   inline?: boolean;
   inlineFlex?: boolean;
   block?: boolean;
@@ -132,7 +133,15 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
   return {
     /* display */
-    display: layout.inline ? "inline" : layout.inlineFlex ? "inline-flex" : layout.block ? "block" : "flex",
+    display: layout.flex
+      ? "flex"
+      : layout.inlineFlex
+        ? "inline-flex"
+        : layout.inline
+          ? "inline"
+          : layout.block
+            ? "block"
+            : "flex",
 
     /* flex */
     flexGrow: parseBoolable(layout.grow ?? layout.f, 1, 0) ?? 0,

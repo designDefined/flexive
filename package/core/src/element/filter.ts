@@ -5,6 +5,7 @@ export const filterProps = <T extends FlexiveProps>(
   props: T,
 ): { flexive: FlexiveProps; rest: Omit<T, keyof FlexiveProps> } => {
   const {
+    flex,
     inline,
     inlineFlex,
     block,
@@ -53,6 +54,7 @@ export const filterProps = <T extends FlexiveProps>(
     hideC,
 
     // utility style
+    relative,
     static: _static,
     fixed,
     absolute,
@@ -72,6 +74,7 @@ export const filterProps = <T extends FlexiveProps>(
 
   return {
     flexive: filterUndefinedKeys({
+      flex,
       inline,
       inlineFlex,
       block,
@@ -120,6 +123,7 @@ export const filterProps = <T extends FlexiveProps>(
       hideC,
 
       // utility style
+      relative,
       static: _static,
       fixed,
       absolute,
