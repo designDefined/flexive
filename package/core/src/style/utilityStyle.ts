@@ -1,3 +1,7 @@
+////////////////////////////
+
+///////////////////////////
+
 import { CSSProperties } from "react";
 import { parseBoolable, parseSize, SizeValue } from "./value";
 
@@ -7,12 +11,12 @@ export type UtilityStyle = {
   fixed?: boolean;
   absolute?: boolean;
   sticky?: boolean;
-  top?: SizeValue;
-  right?: SizeValue;
-  bottom?: SizeValue;
-  left?: SizeValue;
-  z?: number;
-  rad?: SizeValue;
+  top?: SizeValue | true;
+  right?: SizeValue | true;
+  bottom?: SizeValue | true;
+  left?: SizeValue | true;
+  z?: number | true;
+  rad?: SizeValue | true;
 };
 
 export const parseUtilityStyle = (utility: UtilityStyle): CSSProperties => {
@@ -28,11 +32,11 @@ export const parseUtilityStyle = (utility: UtilityStyle): CSSProperties => {
             : utility.sticky
               ? "sticky"
               : "relative",
-    top: parseSize(utility.top),
-    right: parseSize(utility.right),
-    bottom: parseSize(utility.bottom),
-    left: parseSize(utility.left),
-    zIndex: parseBoolable(utility.z, 0, undefined),
-    borderRadius: parseSize(utility.rad),
+    top: parseSize(parseBoolable(utility.top, 0)),
+    right: parseSize(parseBoolable(utility.right, 0)),
+    bottom: parseSize(parseBoolable(utility.bottom, 0)),
+    left: parseSize(parseBoolable(utility.left, 0)),
+    zIndex: parseBoolable(utility.z, 0),
+    borderRadius: parseSize(parseBoolable(utility.rad, 0)),
   };
 };

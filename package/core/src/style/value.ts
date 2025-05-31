@@ -15,7 +15,7 @@ export const parseSize: (value?: SizeValue) => string | undefined = value => {
   return value;
 };
 
-export const parseBoolable = <T>(value: T | boolean, trueValue: T, falseValue: T) =>
+export const parseBoolable = <T>(value: T | boolean, trueValue: T, falseValue?: T) =>
   isBoolean(value) ? (value ? trueValue : falseValue) : value;
 
 export const parseDirectionalSizes = (
