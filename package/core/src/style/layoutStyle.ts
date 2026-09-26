@@ -1,6 +1,7 @@
 import { CSSProperties } from "react";
 import {
   AlignValue,
+  isUndefined,
   JustifyValue,
   OverflowValue,
   parseAlign,
@@ -98,39 +99,93 @@ type AxisDependentLayoutStyle = Pick<
   | "hideM"
   | "hideC"
 >;
+
+/**
+ * Resolves main/cross axis props into physical CSS properties.
+ *
+ * The default `flex-direction: column` is not emitted — it comes from the `.flx` class.
+ * Only an explicit direction prop produces an inline declaration.
+ */
 export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties => {
-  const isRow = axis.row || axis.rowReverse;
-  const main = isRow ? { dir: "X", size: "Width", grid: "row" } : { dir: "Y", size: "Height", grid: "column" };
-  const cross = isRow ? { dir: "Y", size: "Height", grid: "column" } : { dir: "X", size: "Width", grid: "row" };
+  const isRow = !!(axis.row || axis.rowReverse);
+
+  const sizeM = parseSize(parseBoolable(axis.sizeM, 0));
+  const minM = parseSize(parseBoolable(axis.minM, 0));
+  const maxM = parseSize(parseBoolable(axis.maxM, 0));
+  const sizeC = parseSize(parseBoolable(axis.sizeC, 0));
+  const minC = parseSize(parseBoolable(axis.minC, 0));
+  const maxC = parseSize(parseBoolable(axis.maxC, 0));
+
+  const gapM = parseSize(parseBoolable(axis.gM ?? axis.g, 0));
+  const gapC = parseSize(parseBoolable(axis.gC ?? axis.g, 0));
+  // TODO: main and cross axis are swapped here. `row-gap` is the gap *between rows* (vertical),
+  // so the main axis gap of a `row` container should be `column-gap`. Kept as-is on purpose:
+  // fixing it flips the meaning of `gM` / `gC` and is scheduled as a separate change.
+  const rowGap = isRow ? gapM : gapC;
+  const columnGap = isRow ? gapC : gapM;
+  const gap =
+    !isUndefined(rowGap) && !isUndefined(columnGap)
+      ? rowGap === columnGap
+        ? rowGap
+        : `${rowGap} ${columnGap}`
+      : undefined;
+
+  const overM = parseBoolable(
+    axis.overM ?? (axis.hideM ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
+    "auto",
+    "hidden",
+  );
+  const overC = parseBoolable(
+    axis.overC ?? (axis.hideC ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
+    "auto",
+    "hidden",
+  );
+  const overflowX = isRow ? overM : overC;
+  const overflowY = isRow ? overC : overM;
+  const overflow = !isUndefined(overflowX) && overflowX === overflowY ? overflowX : undefined;
 
   return {
-    flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : "column",
+    /* flow */
+    flexDirection: axis.row ? "row" : axis.rowReverse ? "row-reverse" : axis.colReverse ? "column-reverse" : undefined,
+
+    /* align */
     justifyContent: parseAlign(parseBoolable(axis.alignM, "center")),
     justifySelf: parseAlign(parseBoolable(axis.alignSelfM, "center")),
     alignItems: parseAlign(parseBoolable(axis.alignC, "center")),
     alignSelf: parseAlign(parseBoolable(axis.alignSelfC, "center")),
-    [main.size.toLowerCase()]: parseSize(parseBoolable(axis.sizeM, 0)),
-    [`min${main.size}`]: parseSize(parseBoolable(axis.minM, 0)),
-    [`max${main.size}`]: parseSize(parseBoolable(axis.maxM, 0)),
-    [cross.size.toLowerCase()]: parseSize(parseBoolable(axis.sizeC, 0)),
-    [`min${cross.size}`]: parseSize(parseBoolable(axis.minC, 0)),
-    [`max${cross.size}`]: parseSize(parseBoolable(axis.maxC, 0)),
-    [`${main.grid}Gap`]: parseSize(parseBoolable(axis.gM ?? axis.g, 0)),
-    [`${cross.grid}Gap`]: parseSize(parseBoolable(axis.gC ?? axis.g, 0)),
-    [`overflow${main.dir}`]: parseBoolable(
-      axis.overM ?? (axis.hideM ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
-      "auto",
-      "hidden",
-    ),
-    [`overflow${cross.dir}`]: parseBoolable(
-      axis.overC ?? (axis.hideC ? "hidden" : undefined) ?? axis.over ?? (axis.hide ? "hidden" : undefined),
-      "auto",
-      "hidden",
-    ),
+
+    /* sizing */
+    width: isRow ? sizeM : sizeC,
+    minWidth: isRow ? minM : minC,
+    maxWidth: isRow ? maxM : maxC,
+    height: isRow ? sizeC : sizeM,
+    minHeight: isRow ? minC : minM,
+    maxHeight: isRow ? maxC : maxM,
+
+    /* gap — merged into the shorthand whenever both axes are set */
+    gap,
+    rowGap: isUndefined(gap) ? rowGap : undefined,
+    columnGap: isUndefined(gap) ? columnGap : undefined,
+
+    /* overflow — merged only when both axes resolve to the same value */
+    overflow,
+    overflowX: isUndefined(overflow) ? overflowX : undefined,
+    overflowY: isUndefined(overflow) ? overflowY : undefined,
   };
 };
 
+/**
+ * The `.flx` class supplies `display:flex`, `flex-direction:column`, `flex:0 0 auto`.
+ * Only values an author actually asked for are emitted inline.
+ */
 export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
+  const grow = parseBoolable(layout.grow ?? layout.f, 1, 0);
+  const shrink = parseBoolable(layout.shrink ?? layout.f, 1, 0);
+  const basis = parseSize(layout.basis);
+  // `flex: <grow> <shrink>` would reset the basis to 0%, so the shorthand spells `auto` out.
+  // A partially specified flex has to stay longhand or it would reset the other components.
+  const flexMerged = !isUndefined(grow) && !isUndefined(shrink);
+
   return {
     /* display */
     display: layout.flex
@@ -141,16 +196,17 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
           ? "inline"
           : layout.block
             ? "block"
-            : "flex",
+            : undefined,
+
+    /* axis dependent values: flow, align, sizing, gap, overflow */
+    ...parseAxisStyle(layout),
 
     /* flex */
-    flexGrow: parseBoolable(layout.grow ?? layout.f, 1, 0) ?? 0,
-    flexShrink: parseBoolable(layout.shrink ?? layout.f, 1, 0) ?? 0,
-    flexBasis: parseSize(layout?.basis) ?? "auto",
-    flexWrap: layout?.wrap ? "wrap" : layout?.wrapReverse ? "wrap-reverse" : layout?.nowrap ? "nowrap" : undefined,
-
-    /* axis dependent values */
-    ...parseAxisStyle(layout),
+    flex: flexMerged ? `${grow} ${shrink} ${basis ?? "auto"}` : undefined,
+    flexGrow: flexMerged ? undefined : grow,
+    flexShrink: flexMerged ? undefined : shrink,
+    flexBasis: flexMerged ? undefined : basis,
+    flexWrap: layout.wrap ? "wrap" : layout.wrapReverse ? "wrap-reverse" : layout.nowrap ? "nowrap" : undefined,
 
     /* spacing */
     padding: parseDirectionalSizes(

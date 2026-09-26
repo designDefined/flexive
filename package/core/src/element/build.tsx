@@ -1,137 +1,19 @@
 import { forwardRef } from "react";
 import { FlexiveProps, FlexiveTagNames } from "./props";
-import { useFlexiveStyle } from "../style";
+import { FLEXIVE_PROP_KEYS, parseFlexiveClassName, useFlexiveStyle } from "../style";
 
 export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
-  forwardRef<HTMLElementTagNameMap[T], JSX.IntrinsicElements[T] & FlexiveProps>(
-    (
-      {
-        // layout style
-        inline,
-        inlineFlex,
-        block,
-        f,
-        grow,
-        shrink,
-        basis,
-        colReverse,
-        row,
-        rowReverse,
-        wrap,
-        wrapReverse,
-        nowrap,
-        alignM,
-        alignC,
-        alignSelfM,
-        alignSelfC,
-        sizeM,
-        maxM,
-        minM,
-        sizeC,
-        maxC,
-        minC,
-        p,
-        px,
-        py,
-        pt,
-        pr,
-        pb,
-        pl,
-        m,
-        mx,
-        my,
-        mt,
-        mr,
-        mb,
-        ml,
-        g,
-        gM,
-        gC,
-        over,
-        overM,
-        overC,
-        hide,
-        hideM,
-        hideC,
+  forwardRef<HTMLElementTagNameMap[T], JSX.IntrinsicElements[T] & FlexiveProps>((props, ref) => {
+    const style = useFlexiveStyle(props);
 
-        // utility style
-        static: _static,
-        fixed,
-        absolute,
-        sticky,
-        top,
-        right,
-        bottom,
-        left,
-        rad,
+    // Single pass over the props: everything flexive owns is consumed above, the rest is DOM.
+    const rest: Record<string, unknown> = {};
+    for (const key of Object.keys(props)) {
+      if (!(key in FLEXIVE_PROP_KEYS)) rest[key] = (props as Record<string, unknown>)[key];
+    }
 
-        // native style
-        style: nativeStyle,
+    const className = parseFlexiveClassName((props as { className?: string }).className);
 
-        // rest props
-        ...props
-      },
-      ref,
-    ) => {
-      const style = useFlexiveStyle({
-        inline,
-        inlineFlex,
-        block,
-        f,
-        grow,
-        shrink,
-        basis,
-        colReverse,
-        row,
-        rowReverse,
-        wrap,
-        wrapReverse,
-        nowrap,
-        alignM,
-        alignC,
-        alignSelfM,
-        alignSelfC,
-        sizeM,
-        maxM,
-        minM,
-        sizeC,
-        maxC,
-        minC,
-        p,
-        px,
-        py,
-        pt,
-        pr,
-        pb,
-        pl,
-        m,
-        mx,
-        my,
-        mt,
-        mr,
-        mb,
-        ml,
-        g,
-        gM,
-        gC,
-        over,
-        overM,
-        overC,
-        hide,
-        hideM,
-        hideC,
-        static: _static,
-        fixed,
-        absolute,
-        sticky,
-        top,
-        right,
-        bottom,
-        left,
-        rad,
-        style: nativeStyle,
-      });
-      // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
-      return <Tag style={style} ref={ref} {...props} />;
-    },
-  );
+    // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
+    return <Tag {...rest} className={className} style={style} ref={ref} />;
+  });

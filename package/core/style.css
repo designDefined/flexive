@@ -1,0 +1,10 @@
+/* @flexive/core — base layout class.
+   Import once in your app entry:  import "@flexive/core/style.css";
+   Keep the class name in sync with src/style/className.ts */
+
+.flx {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  position: relative;
+}

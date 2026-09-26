@@ -15,7 +15,8 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./style.css": "./style.css"
   },
   "devDependencies": {
     "@types/node": "^22.5.0",
