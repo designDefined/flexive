@@ -17,6 +17,7 @@ export const FLEXIVE_PROP_KEYS = {
   inline: true,
   inlineFlex: true,
   block: true,
+  grid: true,
 
   /* flex */
   f: true,

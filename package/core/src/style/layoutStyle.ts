@@ -17,6 +17,7 @@ export type LayoutStyle = {
   inline?: boolean;
   inlineFlex?: boolean;
   block?: boolean;
+  grid?: boolean;
 
   /* flex */
   f?: number | boolean;
@@ -118,11 +119,10 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 
   const gapM = parseSize(parseBoolable(axis.gM ?? axis.g, 0));
   const gapC = parseSize(parseBoolable(axis.gC ?? axis.g, 0));
-  // TODO: main and cross axis are swapped here. `row-gap` is the gap *between rows* (vertical),
-  // so the main axis gap of a `row` container should be `column-gap`. Kept as-is on purpose:
-  // fixing it flips the meaning of `gM` / `gC` and is scheduled as a separate change.
-  const rowGap = isRow ? gapM : gapC;
-  const columnGap = isRow ? gapC : gapM;
+  // `column-gap` is the horizontal spacing (between columns) and `row-gap` the vertical one,
+  // so both map to the axes exactly like `width`/`height` and `overflow-x`/`overflow-y` below.
+  const columnGap = isRow ? gapM : gapC;
+  const rowGap = isRow ? gapC : gapM;
   const gap =
     !isUndefined(rowGap) && !isUndefined(columnGap)
       ? rowGap === columnGap
@@ -196,7 +196,9 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
           ? "inline"
           : layout.block
             ? "block"
-            : undefined,
+            : layout.grid
+              ? "grid"
+              : undefined,
 
     /* axis dependent values: flow, align, sizing, gap, overflow */
     ...parseAxisStyle(layout),
