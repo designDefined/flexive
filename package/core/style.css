@@ -1,10 +1,30 @@
 /* @flexive/core — base layout class.
    Import once in your app entry:  import "@flexive/core/style.css";
-   Keep the class name in sync with src/style/className.ts */
+   Keep the class names in sync with src/style/className.ts */
 
 .flx {
   display: flex;
   flex-direction: column;
   flex: 0 0 auto;
   position: relative;
+}
+
+/* Default display variants. Same specificity as .flx, so source order makes them win. */
+.flx-inline-flex {
+  display: inline-flex;
+}
+.flx-inline {
+  display: inline;
+}
+.flx-block {
+  display: block;
+}
+.flx-native {
+  display: revert; /* back to the browser's default display */
+}
+
+/* Author styles override the UA's display:none, so restore it for hidden elements. */
+.flx[hidden]:not([hidden="until-found" i]),
+input.flx[type="hidden"] {
+  display: none;
 }
