@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, Ref } from "react";
 import { FlexiveStyle } from "../style";
 
 // Core props
@@ -10,5 +10,7 @@ export type DeprecatedTagNames = "big" | "center" | "keygen" | "menuitem" | "noi
 export type FlexiveTagNames = Exclude<keyof JSX.IntrinsicElements & keyof HTMLElementTagNameMap, DeprecatedTagNames>;
 
 // Props of elements
-export type PropsOf<T extends FlexiveTagNames> = Omit<JSX.IntrinsicElements[T] & FlexiveProps, "ref">;
 export type NativeElementOf<T extends FlexiveTagNames> = HTMLElementTagNameMap[T];
+export type PropsOf<T extends FlexiveTagNames> = Omit<JSX.IntrinsicElements[T] & FlexiveProps, "ref"> & {
+  ref?: Ref<NativeElementOf<T>>;
+};

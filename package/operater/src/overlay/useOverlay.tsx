@@ -18,14 +18,12 @@ type OverlayAction<Context> =
   | [1] // close
   | [2, Context]; // update context
 
-type OverlayReducer<Context> = (state: OverlayState<Context>, action: OverlayAction<Context>) => OverlayState<Context>;
-
 export const useOverlay = <Context = undefined,>(
   renderer: OverlayRenderer,
   { at, onOpen, onClose, onUpdate }: OverlayOption<Context> = {},
 ) => {
   const { delay, isDelaying, duration } = useDelay();
-  const [{ isOpen, context }, dispatch] = useReducer<OverlayReducer<Context>>(
+  const [{ isOpen, context }, dispatch] = useReducer<OverlayState<Context>, [OverlayAction<Context>]>(
     (prev, [code, context]) => {
       if (code === 2) {
         if (!prev.isOpen) return prev;

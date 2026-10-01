@@ -8,6 +8,7 @@
 
     /* Bundler mode */
     "declaration": true,
+    "rootDir": ".",
     "outDir": "./dist",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,

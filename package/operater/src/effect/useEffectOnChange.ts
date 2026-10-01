@@ -8,5 +8,6 @@ export const useEffectOnChange: typeof useEffect = (effect, deps) => {
       return;
     }
     return effect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

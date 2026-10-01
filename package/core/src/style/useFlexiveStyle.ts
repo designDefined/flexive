@@ -14,7 +14,6 @@ import { parseUtilityStyle } from "./utilityStyle";
 export const useFlexiveStyle = (style: FlexiveStyle): CSSProperties => {
   const deps = FLEXIVE_PROP_KEY_LIST.map(key => style[key]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => {
     const merged: CSSProperties = { ...parseLayoutStyle(style), ...parseUtilityStyle(style), ...style.style };
 
@@ -29,5 +28,6 @@ export const useFlexiveStyle = (style: FlexiveStyle): CSSProperties => {
     for (const key in style_) if (style_[key] === undefined) delete style_[key];
 
     return merged;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };

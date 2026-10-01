@@ -10,10 +10,8 @@ type DelayAction =
   | [1] // flush
   | [2]; // cancel
 
-type DelayReducer = (state: DelayState, action: DelayAction) => DelayState;
-
 export const useDelay = () => {
-  const [{ timer, duration }, dispatch] = useReducer<DelayReducer>((prev, [code, callback, ms]) => {
+  const [{ timer, duration }, dispatch] = useReducer<DelayState, [DelayAction]>((prev, [code, callback, ms]) => {
     if (prev.timer) clearTimeout(prev.timer);
     switch (code) {
       case 0:

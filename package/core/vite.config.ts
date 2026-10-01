@@ -11,7 +11,7 @@ export default defineConfig({
       name: "main",
       formats: ["es", "cjs"],
       fileName: (module, entry) => `${entry}.${module === "es" ? "m" : "c"}js`,
-      entry: resolve(__dirname, "index.ts"),
+      entry: resolve(import.meta.dirname, "index.ts"),
     },
     rollupOptions: {
       external: ["react", "react/jsx-runtime"],
