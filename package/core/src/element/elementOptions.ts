@@ -14,5 +14,8 @@ export const TEXT_OPTION: ElementOptions = { display: "inline" };
 /** Text containers: block so that inline children flow as text. */
 export const PROSE_OPTION: ElementOptions = { display: "block" };
 
-/** Elements whose layout relies on the browser default (tables, ruby, hidden or non-rendered ones). */
+/**
+ * Elements whose layout relies on the browser default (tables, list items, ruby, hidden or non-rendered ones).
+ * They don't carry the base class at all, so display, position and flex stay as the browser defines them.
+ */
 export const NATIVE_OPTION: ElementOptions = { display: "native" };
