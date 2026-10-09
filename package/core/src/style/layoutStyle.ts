@@ -29,9 +29,7 @@ export type LayoutStyle = {
   colReverse?: boolean;
   row?: boolean;
   rowReverse?: boolean;
-  wrap?: boolean;
-  wrapReverse?: boolean;
-  nowrap?: boolean;
+  flexWrap?: boolean | "reverse";
   alignM?: JustifyValue | boolean;
   alignC?: AlignValue | boolean;
   alignSelfM?: JustifyValue | boolean; // TODO: Deprecate value. justify-content doesn't work in flexbox layout
@@ -208,7 +206,7 @@ export const parseLayoutStyle = (layout: LayoutStyle): CSSProperties => {
     flexGrow: flexMerged ? undefined : grow,
     flexShrink: flexMerged ? undefined : shrink,
     flexBasis: flexMerged ? undefined : basis,
-    flexWrap: layout.wrap ? "wrap" : layout.wrapReverse ? "wrap-reverse" : layout.nowrap ? "nowrap" : undefined,
+    flexWrap: layout.flexWrap === "reverse" ? "wrap-reverse" : parseBoolable(layout.flexWrap, "wrap", "nowrap"),
 
     /* spacing */
     padding: parseDirectionalSizes(
