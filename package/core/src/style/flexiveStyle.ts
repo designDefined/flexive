@@ -32,7 +32,6 @@ export const FLEXIVE_PROP_KEYS = {
   flexWrap: true,
   alignM: true,
   alignC: true,
-  alignSelfM: true,
   alignSelfC: true,
 
   /* sizing */

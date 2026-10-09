@@ -32,7 +32,6 @@ export type LayoutStyle = {
   flexWrap?: boolean | "reverse";
   alignM?: JustifyValue | boolean;
   alignC?: AlignValue | boolean;
-  alignSelfM?: JustifyValue | boolean; // TODO: Deprecate value. justify-content doesn't work in flexbox layout
   alignSelfC?: AlignValue | boolean;
 
   /* sizing */
@@ -79,7 +78,6 @@ type AxisDependentLayoutStyle = Pick<
   | "row"
   | "rowReverse"
   | "alignM"
-  | "alignSelfM"
   | "alignC"
   | "alignSelfC"
   | "minM"
@@ -148,7 +146,6 @@ export const parseAxisStyle = (axis: AxisDependentLayoutStyle): CSSProperties =>
 
     /* align */
     justifyContent: parseAlign(parseBoolable(axis.alignM, "center")),
-    justifySelf: parseAlign(parseBoolable(axis.alignSelfM, "center")),
     alignItems: parseAlign(parseBoolable(axis.alignC, "center")),
     alignSelf: parseAlign(parseBoolable(axis.alignSelfC, "center")),
 
