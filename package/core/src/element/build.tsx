@@ -6,7 +6,7 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T, options: Element
   // Resolved once per component, not per render.
   const baseClassName = parseBaseClassName(options.display);
 
-  return ({ ref, ...props }: PropsOf<T>) => {
+  const Component = ({ ref, ...props }: PropsOf<T>) => {
     const style = useFlexiveStyle(props);
 
     // Single pass over the props: everything flexive owns is consumed above, the rest is DOM.
@@ -20,4 +20,10 @@ export const buildElement = <T extends FlexiveTagNames>(Tag: T, options: Element
     // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
     return <Tag {...rest} className={className} style={style} ref={ref} />;
   };
+
+  // Names the component after its export (e.g. "div" -> "Div") for React DevTools and component stacks.
+  // `name` rather than `displayName`: React 19 builds component stacks from native stack frames, which
+  // ignore `displayName`. Set after creation so it survives minification and dev-time wrappers.
+  Object.defineProperty(Component, "name", { value: Tag.charAt(0).toUpperCase() + Tag.slice(1) });
+  return Component;
 };
