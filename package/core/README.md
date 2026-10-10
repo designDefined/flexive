@@ -45,6 +45,18 @@ Besides the `flexive-style-props`, everything is same as normal JSX tags.
 >
 ```
 
+### Components Sharing a Global Name
+
+`Object`, `Map`, `Audio` and `Option` share their names with JavaScript globals. Importing them by name shadows the global in that file, so `Object.keys()`, `new Map()`, `new Audio()` or `new Option()` would refer to the component instead. Alias them, or use a namespace import.
+
+```tsx
+import { Map as ImageMap } from "@flexive/core";
+// or
+import * as F from "@flexive/core";
+
+<F.Map name="regions" />;
+```
+
 ### Recommanded Practice
 
 (WIP)
