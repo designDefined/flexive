@@ -183,7 +183,7 @@ export const MyButton = forwardRef<NativeElementOf<"button">, MyButtonProps>((pr
 
 ### Display 관련
 
-#### inline, inlineFlex, block
+#### inline, inlineFlex, block, grid
 
 - 값: `boolean`
 - 기본값: - (`display: flex`)

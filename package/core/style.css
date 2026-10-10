@@ -1,0 +1,33 @@
+/* @flexive/core — base layout class.
+   Import once in your app entry:  import "@flexive/core/style.css";
+   Keep the class names in sync with src/style/className.ts */
+
+.flx {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 auto;
+  position: relative;
+}
+
+/* Default display variants. Same specificity as .flx, so source order makes them win. */
+.flx-inline-flex {
+  display: inline-flex;
+}
+.flx-inline {
+  display: inline;
+}
+.flx-block {
+  display: block;
+}
+
+/* Author styles override the UA's display:none, so restore it for hidden elements. */
+.flx[hidden]:not([hidden="until-found" i]),
+input.flx[type="hidden"] {
+  display: none;
+}
+
+/* Same for closed popovers. Kept as a separate rule: a browser without :popover-open
+   drops the whole selector list, which would take the hidden rule above down with it. */
+.flx[popover]:not(:popover-open) {
+  display: none;
+}

@@ -1,37 +1,62 @@
 {
   "name": "@flexive/core",
-  "version": "0.6.0",
-  "main": "index.ts",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --port 4768",
-    "build": "tsc && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "prepack": "yarn build"
+  "version": "0.7.0",
+  "description": "Flexbox-based, html-like design system builder for React",
+  "keywords": [
+    "react",
+    "flexbox",
+    "layout",
+    "css",
+    "components",
+    "design-system"
+  ],
+  "bugs": "https://github.com/designDefined/flexive/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designDefined/flexive.git",
+    "directory": "package/core"
   },
+  "license": "MIT",
+  "author": "designDefined",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./style.css": "./style.css"
+  },
+  "files": [
+    "dist",
+    "style.css"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "lint": "eslint . --max-warnings 0",
+    "prepack": "yarn build"
   },
   "devDependencies": {
-    "@types/node": "^22.5.0",
-    "@types/react": "^18.2.66",
-    "@typescript-eslint/eslint-plugin": "^7.2.0",
-    "@typescript-eslint/parser": "^7.2.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
-    "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "vite-plugin-dts": "^4.0.3",
-    "vite-tsconfig-paths": "^4.3.2"
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.12.0",
+    "@types/react": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "eslint": "^10.11.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "globals": "^17.12.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.1",
+    "vite-plugin-dts": "^5.1.1"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "^19.0.0"
   }
 }

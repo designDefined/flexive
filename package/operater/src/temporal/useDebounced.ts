@@ -19,11 +19,9 @@ type DebouncedAction<Value> =
   | [1, Value] // set value
   | [2]; // reset
 
-type DebouncedReducer<Value> = (state: DebouncedState<Value>, action: DebouncedAction<Value>) => DebouncedState<Value>;
-
 export const useDebounced = <T>(_input: T, { ms, leading, preventRevert }: DebouncedOption) => {
   const input = useDeep(_input);
-  const [{ value, timer }, dispatch] = useReducer<DebouncedReducer<T>>(
+  const [{ value, timer }, dispatch] = useReducer<DebouncedState<T>, [DebouncedAction<T>]>(
     (prev, [code, value]) => {
       if (prev.timer) clearTimeout(prev.timer);
       if (code === 2) return { value: prev.value };

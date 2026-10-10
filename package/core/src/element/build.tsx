@@ -1,137 +1,29 @@
-import { forwardRef } from "react";
-import { FlexiveProps, FlexiveTagNames } from "./props";
-import { useFlexiveStyle } from "../style";
+import { FlexiveTagNames, PropsOf } from "./props";
+import { ElementOptions } from "./elementOptions";
+import { FLEXIVE_PROP_KEYS, parseBaseClassName, parseFlexiveClassName, useFlexiveStyle } from "../style";
 
-export const buildElement = <T extends FlexiveTagNames>(Tag: T) =>
-  forwardRef<HTMLElementTagNameMap[T], JSX.IntrinsicElements[T] & FlexiveProps>(
-    (
-      {
-        // layout style
-        inline,
-        inlineFlex,
-        block,
-        f,
-        grow,
-        shrink,
-        basis,
-        colReverse,
-        row,
-        rowReverse,
-        wrap,
-        wrapReverse,
-        nowrap,
-        alignM,
-        alignC,
-        alignSelfM,
-        alignSelfC,
-        sizeM,
-        maxM,
-        minM,
-        sizeC,
-        maxC,
-        minC,
-        p,
-        px,
-        py,
-        pt,
-        pr,
-        pb,
-        pl,
-        m,
-        mx,
-        my,
-        mt,
-        mr,
-        mb,
-        ml,
-        g,
-        gM,
-        gC,
-        over,
-        overM,
-        overC,
-        hide,
-        hideM,
-        hideC,
+export const buildElement = <T extends FlexiveTagNames>(Tag: T, options: ElementOptions = {}) => {
+  // Resolved once per component, not per render.
+  const baseClassName = parseBaseClassName(options.display);
 
-        // utility style
-        static: _static,
-        fixed,
-        absolute,
-        sticky,
-        top,
-        right,
-        bottom,
-        left,
-        rad,
+  const Component = ({ ref, ...props }: PropsOf<T>) => {
+    const style = useFlexiveStyle(props);
 
-        // native style
-        style: nativeStyle,
+    // Single pass over the props: everything flexive owns is consumed above, the rest is DOM.
+    const rest: Record<string, unknown> = {};
+    for (const key of Object.keys(props)) {
+      if (!(key in FLEXIVE_PROP_KEYS)) rest[key] = (props as Record<string, unknown>)[key];
+    }
 
-        // rest props
-        ...props
-      },
-      ref,
-    ) => {
-      const style = useFlexiveStyle({
-        inline,
-        inlineFlex,
-        block,
-        f,
-        grow,
-        shrink,
-        basis,
-        colReverse,
-        row,
-        rowReverse,
-        wrap,
-        wrapReverse,
-        nowrap,
-        alignM,
-        alignC,
-        alignSelfM,
-        alignSelfC,
-        sizeM,
-        maxM,
-        minM,
-        sizeC,
-        maxC,
-        minC,
-        p,
-        px,
-        py,
-        pt,
-        pr,
-        pb,
-        pl,
-        m,
-        mx,
-        my,
-        mt,
-        mr,
-        mb,
-        ml,
-        g,
-        gM,
-        gC,
-        over,
-        overM,
-        overC,
-        hide,
-        hideM,
-        hideC,
-        static: _static,
-        fixed,
-        absolute,
-        sticky,
-        top,
-        right,
-        bottom,
-        left,
-        rad,
-        style: nativeStyle,
-      });
-      // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
-      return <Tag style={style} ref={ref} {...props} />;
-    },
-  );
+    const className = parseFlexiveClassName(baseClassName, (props as { className?: string }).className);
+
+    // @ts-expect-error - T is not inferred correctly as a key of JSX.intrinsic elements which has proper JSX call signature.
+    return <Tag {...rest} className={className} style={style} ref={ref} />;
+  };
+
+  // Names the component after its export (e.g. "div" -> "Div") for React DevTools and component stacks.
+  // `name` rather than `displayName`: React 19 builds component stacks from native stack frames, which
+  // ignore `displayName`. Set after creation so it survives minification and dev-time wrappers.
+  Object.defineProperty(Component, "name", { value: Tag.charAt(0).toUpperCase() + Tag.slice(1) });
+  return Component;
+};

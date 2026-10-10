@@ -1,3 +1,4 @@
+import "@flexive/core/style.css";
 import "@style/index.css";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";

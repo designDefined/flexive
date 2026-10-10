@@ -7,6 +7,7 @@
 - [Getting Started](#getting-started)
 - [Main Concept](#main-concept)
 - [Status of the Module](#status-of-the-module)
+- [Breaking Changes](#breaking-changes)
 
 ## Getting Started
 
@@ -45,6 +46,18 @@ Besides the `flexive-style-props`, everything is same as normal JSX tags.
 >
 ```
 
+### Components Sharing a Global Name
+
+`Object`, `Map`, `Audio` and `Option` share their names with JavaScript globals. Importing them by name shadows the global in that file, so `Object.keys()`, `new Map()`, `new Audio()` or `new Option()` would refer to the component instead. Alias them, or use a namespace import.
+
+```tsx
+import { Map as ImageMap } from "@flexive/core";
+// or
+import * as F from "@flexive/core";
+
+<F.Map name="regions" />;
+```
+
 ### Recommanded Practice
 
 (WIP)
@@ -78,3 +91,27 @@ This two-way approach affords you a **new mental model** which is useful to deve
 ## Status of the Module
 
 (WIP)
+
+## Breaking Changes
+
+### 0.7.0
+
+- **The stylesheet is required.** Layout defaults moved from inline styles to a base class, so import it once in your app entry. Without it nothing throws, but layouts silently break.
+
+  ```tsx
+  import "@flexive/core/style.css";
+  ```
+
+- **React 19 or later is required.** `ref` is now received as a regular prop.
+- **Each element has its own default `display`.** Not every element is a flex column anymore: text-level elements (`B`, `Em`, `Code`, ...) are `inline`, controls and replaced elements (`Button`, `Input`, `Img`, `Span`, ...) are `inline-flex`, and text containers (`P`, `H1`-`H6`, `Blockquote`, ...) are `block`.
+- **Native elements are left untouched.** Table elements, `Li`, `Summary`, `Option`, `Dialog`, `Ruby` and non-rendered elements no longer get any flexive defaults, so their `display`, `position` and `flex` are the browser's. Flexive props still work on them.
+- **`wrap`, `wrapReverse` and `nowrap` are merged into `flexWrap`.** `wrap` collided with the native `wrap` attribute of `<textarea>`.
+
+  ```tsx
+  <Div flexWrap />           // was: wrap
+  <Div flexWrap="reverse" /> // was: wrapReverse
+  <Div flexWrap={false} />   // was: nowrap
+  ```
+
+- **`alignSelfM` is removed.** It mapped to `justify-self`, which has no effect in a flex layout.
+- **Internal helpers are no longer exported.** `parse*` functions, `is*` predicates, `FLEXIVE_PROP_KEYS` and internal types (`LayoutStyle`, `UtilityStyle`, `FlexiveStyle`, ...) are gone from the public API. Components, `filterProps`, `useFlexiveStyle`, `bindCSS` and the types `PropsOf`, `FlexiveProps`, `FlexiveTagNames`, `NativeElementOf`, `SizeValue`, `JustifyValue`, `AlignValue`, `OverflowValue`, `ExtendedClassName` remain.

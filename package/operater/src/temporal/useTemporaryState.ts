@@ -16,13 +16,8 @@ type TemporaryStateAction<Value> =
   | [1] // reset
   | [2]; // update
 
-type TemporaryStateReducer<Value> = (
-  state: TemporaryState<Value>,
-  action: TemporaryStateAction<Value>,
-) => TemporaryState<Value>;
-
 export const useTemporaryState = <T>(initialState: T, { updateOnOverlap }: TemporaryStateOption = {}) => {
-  const [{ current, saved, timer }, dispatch] = useReducer<TemporaryStateReducer<T>>(
+  const [{ current, saved, timer }, dispatch] = useReducer<TemporaryState<T>, [TemporaryStateAction<T>]>(
     (prev, [code, value, ms]) => {
       if (prev.timer) clearTimeout(prev.timer);
       if (code === 1) return { current: prev.saved, saved: prev.saved };
