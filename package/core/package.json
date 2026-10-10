@@ -1,15 +1,27 @@
 {
   "name": "@flexive/core",
   "version": "0.7.0",
-  "main": "index.ts",
-  "type": "module",
-  "scripts": {
-    "dev": "vite --port 4768",
-    "build": "tsc && vite build",
-    "lint": "eslint . --max-warnings 0",
-    "preview": "vite preview",
-    "prepack": "yarn build"
+  "description": "Flexbox-based, html-like design system builder for React",
+  "keywords": [
+    "react",
+    "flexbox",
+    "layout",
+    "css",
+    "components",
+    "design-system"
+  ],
+  "bugs": "https://github.com/designDefined/flexive/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/designDefined/flexive.git",
+    "directory": "package/core"
   },
+  "license": "MIT",
+  "author": "designDefined",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,6 +29,18 @@
       "require": "./dist/index.cjs"
     },
     "./style.css": "./style.css"
+  },
+  "files": [
+    "dist",
+    "style.css"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "tsc && vite build",
+    "lint": "eslint . --max-warnings 0",
+    "prepack": "yarn build"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

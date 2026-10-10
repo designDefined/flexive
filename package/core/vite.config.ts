@@ -3,12 +3,10 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), dts({ include: ["index.ts", "src"] })],
   build: {
     lib: {
-      name: "main",
       formats: ["es", "cjs"],
       fileName: (module, entry) => `${entry}.${module === "es" ? "m" : "c"}js`,
       entry: resolve(import.meta.dirname, "index.ts"),
